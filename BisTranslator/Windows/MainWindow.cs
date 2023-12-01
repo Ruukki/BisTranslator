@@ -1,15 +1,16 @@
-﻿using System;
+using System;
 using System.Numerics;
 using Dalamud.Interface.Internal;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
-namespace SamplePlugin.Windows;
+namespace BisTranslator.Windows;
 
 public class MainWindow : Window, IDisposable
 {
     private IDalamudTextureWrap GoatImage;
     private Plugin Plugin;
+    private Configuration _config;
 
     public MainWindow(Plugin plugin, IDalamudTextureWrap goatImage) : base(
         "My Amazing Window", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
@@ -22,6 +23,7 @@ public class MainWindow : Window, IDisposable
 
         this.GoatImage = goatImage;
         this.Plugin = plugin;
+        _config = new Configuration();
     }
 
     public void Dispose()
@@ -31,8 +33,10 @@ public class MainWindow : Window, IDisposable
 
     public override void Draw()
     {
-        ImGui.Text($"The random config bool is {this.Plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
-
+        if (ImGui.Button("Save"))
+        {
+            this.Plugin.Configuration.Save();
+        }
         if (ImGui.Button("Show Settings"))
         {
             this.Plugin.DrawConfigUI();
@@ -40,9 +44,23 @@ public class MainWindow : Window, IDisposable
 
         ImGui.Spacing();
 
-        ImGui.Text("Have a goat:");
-        ImGui.Indent(55);
-        ImGui.Image(this.GoatImage.ImGuiHandle, new Vector2(this.GoatImage.Width, this.GoatImage.Height));
-        ImGui.Unindent(55);
+        string name = _config.Name;
+        if (ImGui.InputText("new name", ref name, 50))
+        {
+            _config.Name = name;
+        }
+
+        string regex = _config.CommandRegex;
+        if(ImGui.InputText("Command match regex", ref regex, 50))
+        {
+            _config.CommandRegex = regex;
+        }
+
+        
+
+        //ImGui.Text("Have a goat:");
+        //ImGui.Indent(55);
+        //ImGui.Image(this.GoatImage.ImGuiHandle, new Vector2(this.GoatImage.Width, this.GoatImage.Height));
+        //ImGui.Unindent(55);
     }
 }
