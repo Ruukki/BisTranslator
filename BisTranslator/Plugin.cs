@@ -5,6 +5,11 @@ using System.IO;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
 using BisTranslator.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using BisTranslator.Services;
+using BisTranslator.Translator;
+using BisTranslator.Services.Chat;
+using System.Linq;
 
 namespace BisTranslator
 {
@@ -12,73 +17,80 @@ namespace BisTranslator
     {
         public string Name => "BisTranslator";
         private const string CommandName = "/slutify";
+        private readonly ServiceProvider _services;
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
-        public Configuration Configuration { get; init; }
-        public WindowSystem WindowSystem = new("BisTranslator");
+        private Configuration _config { get; init; }
+        
 
-        private ConfigWindow ConfigWindow { get; init; }
-        private MainWindow MainWindow { get; init; }
+        
 
         public Plugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
             [RequiredVersion("1.0")] ICommandManager commandManager)
         {
+            try
+            {
+                _services = ServiceHandler.CreateProvider(pluginInterface);
+                _services.GetRequiredService<WindowsService>();
+                _config = _services.GetRequiredService<Configuration>();
+                Translations.SetName(_config.Name);
+                _config.Save();
+
+                _services.GetRequiredService<ChatManager>(); // Initialize the OnChatMessage
+                _services.GetRequiredService<ChatReader>(); // Initialize the chat message detour
+            }
+            catch
+            {
+                Dispose();
+                throw;
+            }
+
             this.PluginInterface = pluginInterface;
             this.CommandManager = commandManager;
 
-            this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            this.Configuration.Initialize(this.PluginInterface);
+            //this.Configuration = this._pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+            //this.Configuration.Initialize(this._pluginInterface);
 
             // you might normally want to embed resources and load them from the manifest stream
-            var imagePath = Path.Combine(PluginInterface.AssemblyLocation.Directory?.FullName!, "goat.png");
-            var goatImage = this.PluginInterface.UiBuilder.LoadImage(imagePath);
+            //var imagePath = Path.Combine(PluginInterface.AssemblyLocation.Directory?.FullName!, "goat.png");
+            //var goatImage = this.PluginInterface.UiBuilder.LoadImage(imagePath);
 
-            ConfigWindow = new ConfigWindow(this);
-            MainWindow = new MainWindow(this, goatImage);
             
-            WindowSystem.AddWindow(ConfigWindow);
-            WindowSystem.AddWindow(MainWindow);
 
-            this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
+            /*this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
                 HelpMessage = "A useful message to display in /xlhelp"
-            });
+            });*/
 
-            this.PluginInterface.UiBuilder.Draw += DrawUI;
-            this.PluginInterface.UiBuilder.OpenConfigUi += DrawMainUI;
+            
         }
 
         public void Dispose()
-        {
-            this.WindowSystem.RemoveAllWindows();
-            
-            ConfigWindow.Dispose();
-            MainWindow.Dispose();
-            
-            this.CommandManager.RemoveHandler(CommandName);
+        {            
+            //this.CommandManager.RemoveHandler(CommandName);
         }
 
         private void OnCommand(string command, string args)
         {
             // in response to the slash command, just display our main ui
-            MainWindow.IsOpen = true;
+            //_mainWindow.IsOpen = true;
         }
 
-        private void DrawUI()
+        /*private void DrawUI()
         {
             this.WindowSystem.Draw();
         }
 
         public void DrawConfigUI()
         {
-            ConfigWindow.IsOpen = true;
+            _configWindow.IsOpen = true;
         }
 
         public void DrawMainUI()
         {
-            MainWindow.IsOpen = true;
-        }
+            _mainWindow.IsOpen = true;
+        }*/
     }
 }

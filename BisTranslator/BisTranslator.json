@@ -1,11 +1,13 @@
 {
     "Author": "ruukki",
     "Name": "BisTranslator",
-    "Punchline": "A short one-liner that shows up in /xlplugins.",
-    "Description": "A description that shows up in /xlplugins. List any major slash-command(s).",
+    "Punchline": "Become RP god",
+    "Description": "Personilised chat message translations and movement impairing commands",
     "InternalName": "bisTranslator",
     "ApplicableVersion": "any",
     "Tags": [
         "translate"
-    ]
+    ],
+
+    "LoadPriority": 696969
 }

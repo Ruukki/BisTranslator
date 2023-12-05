@@ -8,12 +8,11 @@ namespace BisTranslator.Windows;
 
 public class MainWindow : Window, IDisposable
 {
-    private IDalamudTextureWrap GoatImage;
-    private Plugin Plugin;
     private Configuration _config;
+    private ConfigWindow _configWindow;
 
-    public MainWindow(Plugin plugin, IDalamudTextureWrap goatImage) : base(
-        "My Amazing Window", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
+    public MainWindow(ConfigWindow configWindow, Configuration config) : base(
+        "Miki Mod Workshop", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         this.SizeConstraints = new WindowSizeConstraints
         {
@@ -21,25 +20,26 @@ public class MainWindow : Window, IDisposable
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
-        this.GoatImage = goatImage;
-        this.Plugin = plugin;
-        _config = new Configuration();
+        _config = config;
+        _configWindow = configWindow;
     }
 
     public void Dispose()
     {
-        this.GoatImage.Dispose();
+       // this.GoatImage.Dispose();
     }
 
     public override void Draw()
     {
         if (ImGui.Button("Save"))
         {
-            this.Plugin.Configuration.Save();
+            _config.Save();
         }
+        ImGui.SameLine();
         if (ImGui.Button("Show Settings"))
         {
-            this.Plugin.DrawConfigUI();
+            _config.Save();
+            _configWindow.Toggle();
         }
 
         ImGui.Spacing();
@@ -47,16 +47,13 @@ public class MainWindow : Window, IDisposable
         string name = _config.Name;
         if (ImGui.InputText("new name", ref name, 50))
         {
-            _config.Name = name;
+            _config.Name = name.ToLowerInvariant();
         }
 
-        string regex = _config.CommandRegex;
-        if(ImGui.InputText("Command match regex", ref regex, 50))
-        {
-            _config.CommandRegex = regex;
-        }
+        ImGui.Text($"Command match: {_config.CommandMatch}");
+        ImGui.Text($"Command regex: {_config.CommandRegex}");
 
-        
+
 
         //ImGui.Text("Have a goat:");
         //ImGui.Indent(55);

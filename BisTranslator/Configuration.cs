@@ -1,3 +1,4 @@
+using BisTranslator.Translator;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
 using System;
@@ -14,24 +15,25 @@ namespace BisTranslator
         public string CommandRegex { get; set; } = string.Empty;
 
         public string Name { get; set; } = string.Empty;
-        public Dictionary<string, string> Translations { get; set; } = new Dictionary<string, string>()
-        {
-            {"I'm", "slut is"},
-            {"I", "slut"},
-        };
+        public string CommandMatch { get; set; } = string.Empty;
+
+        public bool BigPussy { get; set; } = false;
 
         // the below exist just to make saving less cumbersome
         [NonSerialized]
-        private DalamudPluginInterface? PluginInterface;
+        private DalamudPluginInterface? _pluginInterface;
 
-        public void Initialize(DalamudPluginInterface pluginInterface)
+        public Configuration(DalamudPluginInterface pluginInterface)
         {
-            this.PluginInterface = pluginInterface;
+            _pluginInterface = pluginInterface;
         }
 
         public void Save()
         {
-            this.PluginInterface!.SavePluginConfig(this);
+            CommandRegex = @$"(?i)^(?:{Name},)\s+(?:\((.*?)\)|(\w+))";
+            CommandMatch = $"\"{Name}, \"";
+            Translations.SetName(Name);
+            _pluginInterface?.SavePluginConfig(this);
         }
     }
 }
