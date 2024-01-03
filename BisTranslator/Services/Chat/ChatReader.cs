@@ -91,17 +91,34 @@ namespace BisTranslator.Services.Chat
             try
             {
                 var bc = 0;
+                int matchSequence = 0;
                 for (var i = 0; i <= 500; i++)
                 { // making sure command / message is within 500 characters
+                    if (i + 5 < 500 && (*message)[i] == 0x02 && (*message)[i+1] == 0x2e) matchSequence += 2;
+                    if ((*message)[i] == 0xf2 && matchSequence == 2) matchSequence++;
+                    if ((*message)[i] == 0x03 && matchSequence == 3) matchSequence++;
+                    //_pluginLog.Debug($"[Chat Processor]: XXX: {matchSequence}");
+
                     if (*(*message + i) != 0) continue; // if the message is empty, break
                     bc = i; // increment bc
                     break;
                 }
-                if (bc < 2 || bc > 500 || _config.BigPussy)
+                if (bc < 2 || bc > 500 || _config.BigPussy || matchSequence == 4)
                 {
                     // if we satsify this condition it means our message is an invalid message so disregard it
                     return processChatInputHook.Original(uiModule, message, a3); // just send the message as invalid or whatever
                 }
+
+                /*
+                StringBuilder hex = new StringBuilder(bc * 2);
+                for (int i = 0; i < bc; i++)
+                {
+                    hex.AppendFormat("{0:x2} ", (*message)[i]);
+                }
+                _pluginLog.Debug($"[Chat Processor]: Message bytes: {hex}");
+                _pluginLog.Debug($"[Chat Processor]: uiModule: {uiModule}");
+                _pluginLog.Debug($"[Chat Processor]: a3: {a3}");
+                */
 
                 var inputString = Encoding.UTF8.GetString(*message, bc);
                 var matchedCommand = "";

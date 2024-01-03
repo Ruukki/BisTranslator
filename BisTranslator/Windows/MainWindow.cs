@@ -1,8 +1,12 @@
 using System;
+using System.Linq;
 using System.Numerics;
+using BisTranslator.Permissions;
 using Dalamud.Interface.Internal;
 using Dalamud.Interface.Windowing;
+using FFXIVClientStructs.Havok;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
 
 namespace BisTranslator.Windows;
 
@@ -10,8 +14,9 @@ public class MainWindow : Window, IDisposable
 {
     private Configuration _config;
     private ConfigWindow _configWindow;
+    private AbilitiesWindow _abilitiesWindow;
 
-    public MainWindow(ConfigWindow configWindow, Configuration config) : base(
+    public MainWindow(ConfigWindow configWindow, Configuration config, AbilitiesWindow abilitiesWindow) : base(
         "Miki Mod Workshop", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         this.SizeConstraints = new WindowSizeConstraints
@@ -22,6 +27,7 @@ public class MainWindow : Window, IDisposable
 
         _config = config;
         _configWindow = configWindow;
+        _abilitiesWindow = abilitiesWindow;
     }
 
     public void Dispose()
@@ -31,28 +37,62 @@ public class MainWindow : Window, IDisposable
 
     public override void Draw()
     {
-        if (ImGui.Button("Save"))
+        if (_config.lockedUiOverride)
         {
-            _config.Save();
+            ImGui.TextColored(new Vector4(1.0f, 0f, 0f, 1.0f), "Hell mode");
         }
-        ImGui.SameLine();
+        else
+        {
+            if (ImGui.Button("Save"))
+            {
+                _config.Save();
+            }
+            ImGui.SameLine();
+        }
+
         if (ImGui.Button("Show Settings"))
         {
-            _config.Save();
             _configWindow.Toggle();
         }
 
         ImGui.Spacing();
 
         string name = _config.Name;
-        if (ImGui.InputText("new name", ref name, 50))
+        if (_config.lockedUiOverride)
         {
-            _config.Name = name.ToLowerInvariant();
+            ImGui.Text($"your new name: {name}");
         }
+        else
+        {
+            if (ImGui.InputText("new name", ref name, 50))
+            {
+                _config.Name = name.ToLowerInvariant();
+            }
+        }       
+
 
         ImGui.Text($"Command match: {_config.CommandMatch}");
         ImGui.Text($"Command regex: {_config.CommandRegex}");
+        /*ImGui.BeginListBox("Testing");        
+        ImGui.EndListBox();*/
 
+        if (_config.tester)
+        {
+            if (ImGui.Button("Abilities"))
+            {
+                _abilitiesWindow.Toggle();
+            }
+            var lvl = (int)_config.AbilityRestrictionLevel;
+            var names = Enum.GetValues(typeof(AbilityRestrictionLevel))
+                                         .Cast<AbilityRestrictionLevel>()
+                                         .Select(e => e.ToString())
+                                         .ToArray();
+            if (ImGui.ListBox("Testing", ref lvl, names, names.Length))
+            {
+                _config.AbilityRestrictionLevel = (AbilityRestrictionLevel)lvl;
+            }
+            ImGui.Text(_config.AbilityRestrictionLevel.ToString());
+        }
 
 
         //ImGui.Text("Have a goat:");

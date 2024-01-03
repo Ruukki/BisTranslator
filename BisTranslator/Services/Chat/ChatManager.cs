@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using ChatTwo.Movement;
 using System.Threading;
 using static Lumina.Data.Parsing.Layer.LayerCommon;
+using BisTranslator.Permissions;
 
 namespace BisTranslator.Services.Chat
 {
@@ -29,10 +30,11 @@ namespace BisTranslator.Services.Chat
         //private readonly MessageDecoder _messageDecoder;
         //private readonly MessageResultLogic _msgResultLogic;
         private readonly IFramework _framework;
+        private PlugService _plugService;
         private Queue<string> messageQueue = new Queue<string>();
         private Stopwatch messageTimer = new Stopwatch();
         public ChatManager(IChatGui clientChat, Configuration config, IClientState clientState, IObjectTable objectTable,
-    MessageSender messageSender, /*MessageDecoder messageDecoder, MessageResultLogic messageResultLogic,*/ IFramework framework, IPluginLog log, MoveManager moveManager)
+    MessageSender messageSender, /*MessageDecoder messageDecoder, MessageResultLogic messageResultLogic,*/ IFramework framework, IPluginLog log, MoveManager moveManager, PlugService plugService)
         {
             _clientChat = clientChat;
             _config = config;
@@ -44,19 +46,24 @@ namespace BisTranslator.Services.Chat
             _framework = framework;
             _log = log;
             _moveManager = moveManager;
+            _plugService = plugService;
 
             // begin our framework check
             _framework.Update += framework_Update;
             // Begin our OnChatMessage Detection
             _clientChat.CheckMessageHandled += Chat_OnCheckMessageHandled;
-            _clientChat.ChatMessage += Chat_OnChatMessage;
+            //_clientChat.ChatMessage += Chat_OnChatMessage;
+            _clientChat.ChatMessageHandled += Chat_OnChatMessageHandled;
+            //_clientChat.ChatMessageUnhandled += Chat_OnChatMessageUnhandled;
         }
 
         public void Dispose()
         {
             _framework.Update -= framework_Update;
             _clientChat.CheckMessageHandled -= Chat_OnCheckMessageHandled;
-            _clientChat.ChatMessage -= Chat_OnChatMessage;
+            //_clientChat.ChatMessage -= Chat_OnChatMessage;
+            _clientChat.ChatMessageHandled -= Chat_OnChatMessageHandled;
+            //_clientChat.ChatMessageUnhandled -= Chat_OnChatMessageUnhandled;
         }
 
         /// <summary> 
@@ -72,22 +79,32 @@ namespace BisTranslator.Services.Chat
         {
             var chatTypes = new[] { XivChatType.TellIncoming, XivChatType.TellOutgoing };
             // if the message is a outgoing tell
-            if (true/*type == XivChatType.TellOutgoing*/)
+            if ((int)type < 56 || (int)type > 71)
             {
-                _log.Debug($"Chat_OnCheckMessageHandled {message.TextValue}");
+                //_log.Debug($"Chat_OnCheckMessageHandled {message.TextValue}");
                 var match = Regex.Match(message.TextValue, _config.CommandRegex);
                 if (match.Success)
                 {
-                    _log.Debug($"match.Success {match.Groups[2].Value}");
+                    var matched = match.Groups[2].Value;
+                    if (_config.UseFullMatch)
+                    {
+                        matched = matched.Replace('[', '<').Replace(']', '>');
+                    }
+                    _log.Debug($"match.Success {matched}");
                     _clientChat.Print(new SeStringBuilder().AddItalicsOn().AddUiForeground(31).AddText($"{sender.TextValue}").AddUiForegroundOff()
-                        .AddText($" forced you to {match.Groups[2].Value}.")
+                        .AddText($" forced you to {matched}.")
                         .AddItalicsOff().BuiltString);
-                    MoveManager.DisableMoving();
+                    _moveManager.DisableMoving();
                     Task.Run(() => {
                         Thread.Sleep(100);
-                        _messageSender.SendMessage($"/{match.Groups[2].Value} motion");
+                        if (_config.SuperSecretFeature)
+                        {
+                            _plugService?.Vibrate(5, 0.1);
+                        }
+                        _messageSender.SendMessage($"/{matched}");
+
                         Thread.Sleep(5000);
-                        MoveManager.EnableMoving();
+                        _moveManager.EnableMoving();
                     });
                     // if it does, hide it from the chat log
                     isHandled = true;
@@ -107,6 +124,7 @@ namespace BisTranslator.Services.Chat
         /// </list> </summary>
         private void Chat_OnChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString chatmessage, ref bool isHandled)
         {
+            _log.Debug($"[ChatManager]: chatmessage: {chatmessage.TextValue}");
             // create some new SeStrings for the message and the new line
             var fmessage = new SeString(new List<Payload>());
             var nline = new SeString(new List<Payload>());
@@ -151,6 +169,8 @@ namespace BisTranslator.Services.Chat
                     }
                 }
             }
+            _log.Debug($"[ChatManager]: chatmessage: {chatmessage.TextValue}");
+            _log.Debug($"[ChatManager]: fmessage: {fmessage.TextValue}");
 #pragma warning restore CS8600 // let us see if we have any others
             // append the chat message to the new formatted message 
             fmessage.Append(chatmessage);
@@ -160,6 +180,7 @@ namespace BisTranslator.Services.Chat
                 fmessage.Payloads.Insert(0, new EmphasisItalicPayload(true));
                 fmessage.Payloads.Add(new EmphasisItalicPayload(false));
             }
+            _log.Debug($"[ChatManager]: fmessage: {fmessage}");
             // set the player name to the player payload, otherwise set it to the local player
             var pName = playerPayload == default(PlayerPayload) ? _clientState.LocalPlayer?.Name.TextValue : playerPayload.PlayerName;
             var sName = sender.Payloads.SingleOrDefault(x => x is PlayerPayload) as PlayerPayload; // get the player payload from the sender 
@@ -249,6 +270,16 @@ namespace BisTranslator.Services.Chat
             //    } // skipped to this point if not encoded message
             //} // skips directly to here if not a tell
             #endregion
+        }
+
+        private void Chat_OnChatMessageHandled(XivChatType type, uint senderId, SeString sender, SeString message)
+        {
+            _log.Debug($"Chat_OnChatMessageHandled");
+        }
+
+        private void Chat_OnChatMessageUnhandled(XivChatType type, uint senderId, SeString sender, SeString message)
+        {
+            _log.Debug($"Chat_OnChatMessageUnhandled");
         }
 
         /// <summary>
@@ -374,6 +405,7 @@ namespace BisTranslator.Services.Chat
                             }
                         }
                     }
+
                 }
                 catch
                 {

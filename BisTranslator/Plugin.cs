@@ -10,6 +10,9 @@ using BisTranslator.Services;
 using BisTranslator.Translator;
 using BisTranslator.Services.Chat;
 using System.Linq;
+using BisTranslator.Services.Actions;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace BisTranslator
 {
@@ -33,13 +36,25 @@ namespace BisTranslator
             try
             {
                 _services = ServiceHandler.CreateProvider(pluginInterface);
+                var log = _services.GetRequiredService<IPluginLog>();
                 _services.GetRequiredService<WindowsService>();
                 _config = _services.GetRequiredService<Configuration>();
                 Translations.SetName(_config.Name);
                 _config.Save();
+                log.Debug($"Cofgi path: {pluginInterface.GetPluginConfigDirectory()}");
 
                 _services.GetRequiredService<ChatManager>(); // Initialize the OnChatMessage
                 _services.GetRequiredService<ChatReader>(); // Initialize the chat message detour
+                _services.GetRequiredService<ActionManager>();
+                var overrides = _services.GetRequiredService<OverrideManager>();
+
+                var client = _services.GetRequiredService<IClientState>();
+                log.Debug($"client.IsLoggedIn: {client.IsLoggedIn}");
+                if (client != null && client.IsLoggedIn)
+                {
+                    overrides.Login();
+                }
+
             }
             catch
             {

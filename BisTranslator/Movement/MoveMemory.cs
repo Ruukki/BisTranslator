@@ -33,7 +33,7 @@ namespace ChatTwo.Movement
         Hook<InputData_IsInputIDKeyPressedDelegate> InputData_IsInputIDKeyPressedHook;
         byte InputData_IsInputIDKeyPressedDetour(nint a1, int key)
         {
-            //PluginLog.Verbose($"Pressed: {key}");
+            //if(key > 320 && key < 330) PluginLog.Debug($"Pressed: {key}");
             if (key.EqualsAny(MoveManager.BlockedKeys)) return 0;
             return InputData_IsInputIDKeyPressedHook.Original(a1, key);
         }
@@ -44,7 +44,7 @@ namespace ChatTwo.Movement
         Hook<InputData_IsInputIDKeyClickedDelegate> InputData_IsInputIDKeyClickedHook;
         byte InputData_IsInputIDKeyClickedDetour(nint a1, int key)
         {
-            //PluginLog.Verbose($"Clicked: {key}");
+            //PluginLog.Debug($"Clicked: {key}");
             if (key.EqualsAny(MoveManager.BlockedKeys)) return 0;
             return InputData_IsInputIDKeyClickedHook.Original(a1, key);
         }
@@ -55,7 +55,7 @@ namespace ChatTwo.Movement
         Hook<InputData_IsInputIDKeyHeldDelegate> InputData_IsInputIDKeyHeldHook;
         byte InputData_IsInputIDKeyHeldDetour(nint a1, int key)
         {
-            //PluginLog.Verbose($"Held: {key}");
+            //PluginLog.Debug($"Held: {key}");            
             if (key.EqualsAny(MoveManager.BlockedKeys)) return 0;
             return InputData_IsInputIDKeyHeldHook.Original(a1, key);
         }

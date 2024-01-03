@@ -1,3 +1,4 @@
+using BisTranslator.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace BisTranslator.Translator
             {"I'd", "_ would"},
             {"I've", "_ has"},
             {"I am", "_ is"},
-            {"myself", "itself"},
+            //{"myself", "itself"},
             {"I", "_"},
             {"am", "is"}
         };

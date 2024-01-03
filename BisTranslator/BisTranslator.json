@@ -8,6 +8,6 @@
     "Tags": [
         "translate"
     ],
-
+    "DalamudApiLevel": 99,
     "LoadPriority": 696969
 }

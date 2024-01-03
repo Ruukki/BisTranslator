@@ -10,15 +10,17 @@ namespace ChatTwo.Movement
     public class MoveManager
     {
         public static readonly int[] BlockedKeys = new int[] { 321, 322, 323, 324, 325, 326 };
-        private static bool MovingDisabled { get; set; } = false;
+        private bool MovingDisabled { get; set; } = false;
         private static MoveMemory _memory { get; set; }
+
+        public bool IsActive { get { return MovingDisabled; } }
 
         public MoveManager(MoveMemory mem)
         {
             _memory = mem;
         }
 
-        public unsafe static void EnableMoving()
+        public unsafe void EnableMoving()
         {
             if (MovingDisabled)
             {
@@ -32,7 +34,7 @@ namespace ChatTwo.Movement
             }
         }
 
-        public static void DisableMoving()
+        public void DisableMoving()
         {
             if (!MovingDisabled)
             {

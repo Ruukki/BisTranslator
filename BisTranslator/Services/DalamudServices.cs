@@ -42,6 +42,7 @@ public class DalamudServices
         services.AddSingleton(ObjectTable);
         services.AddSingleton(PartyFinderGui);
         services.AddSingleton(SigScanner);
+        services.AddSingleton(Condition);
         services.AddSingleton(this);
     }
 
@@ -58,6 +59,8 @@ public class DalamudServices
     [PluginService] public IPartyFinderGui PartyFinderGui { get; private set; } = null!; // For interfacing with the party finder (may remove)
     [PluginService] public IPluginLog PluginLog { get; private set; } = null!; // For interfacing with the plugin logger
     [PluginService] public ISigScanner SigScanner { get; private set; } = null!; // For getting our signatures to perform the operations in our danger files.
+    [PluginService] public IDtrBar DtrBar { get; private set; } = null!;
+    [PluginService] public ICondition Condition { get; private set; } = null!;
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }

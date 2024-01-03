@@ -1,3 +1,4 @@
+using BisTranslator.Services.Actions;
 using BisTranslator.Services.Chat;
 using BisTranslator.Windows;
 using ChatTwo.Movement;
@@ -24,6 +25,8 @@ namespace BisTranslator.Services
                 .AddMeta(pi)
                 .AddMovement()
                 .AddChat()
+                .AddExtras()
+                .AddAction()
                 //.AddApi()
                 .AddUi();
             // return the built services provider in the form of a instanced service collection
@@ -39,9 +42,10 @@ namespace BisTranslator.Services
 
         private static IServiceCollection AddMeta(this IServiceCollection services, DalamudPluginInterface pi)
         {
-            var config = pi.GetPluginConfig() as Configuration;
+            Configuration? config = pi.GetPluginConfig() as Configuration;
             if (config != null)
             {
+                config.LoadInterface(pi);
                 return services.AddSingleton<Configuration>(config);
             }
             return services.AddSingleton<Configuration>();
@@ -69,10 +73,18 @@ namespace BisTranslator.Services
         => services.AddSingleton<MoveManager>()
              .AddSingleton<MoveMemory>(_ => { var interop = _.GetRequiredService<IGameInteropProvider>(); return new MoveMemory(interop); });
 
+        private static IServiceCollection AddAction(this IServiceCollection services)
+        => services.AddSingleton<ActionManager>();
+
+        private static IServiceCollection AddExtras(this IServiceCollection services)
+        => services.AddSingleton<PlugService>()
+            .AddSingleton<OverrideManager>();
+
         private static IServiceCollection AddUi(this IServiceCollection services)
         => services.AddSingleton<WindowsService>()
             .AddSingleton<MainWindow>()
-            .AddSingleton<ConfigWindow>();
+            .AddSingleton<ConfigWindow>()
+            .AddSingleton<AbilitiesWindow>();
 
         /*private static IServiceCollection AddApi(this IServiceCollection services)
         => services.AddSingleton<CommandManager>();*/
