@@ -23,9 +23,9 @@
         "IsTestingExclusive": "False",
         "DownloadCount": 420,
         "LastUpdate": 1618608322,
-        "DownloadLinkInstall": "https://github.com/Ruukki/BisTranslator/releases/download/test/latest.zip",
-        "DownloadLinkUpdate": "https://github.com/Ruukki/BisTranslator/releases/download/test/latest.zip",
-        "DownloadLinkTesting": "https://github.com/Ruukki/BisTranslator/releases/download/test/latest.zip",
-        "IconUrl": "https://avatars.githubusercontent.com/u/11978560"
+        "DownloadLinkInstall": "https://github.com/Ruukki/BisTranslator/releases/download/release/latest.zip",
+        "DownloadLinkUpdate": "https://github.com/Ruukki/BisTranslator/releases/download/release/latest.zip",
+        "DownloadLinkTesting": "https://github.com/Ruukki/BisTranslator/releases/download/release/latest.zip",
+        "IconUrl": "https://raw.githubusercontent.com/Ruukki/BisTranslator/master/E0NHlDcVEAQn3VL.png"
     }
 ]
