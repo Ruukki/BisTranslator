@@ -54,6 +54,10 @@ namespace BisTranslator
         public bool isConfigOverriden = false;
         [NonSerialized]
         public bool tester = false;
+
+        // System
+        [NonSerialized]
+        public bool GilOverflow = false;
         // the below exist just to make saving less cumbersome
         [NonSerialized]
         private DalamudPluginInterface? _pluginInterface;

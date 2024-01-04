@@ -84,7 +84,8 @@ namespace BisTranslator.Services
         => services.AddSingleton<WindowsService>()
             .AddSingleton<MainWindow>()
             .AddSingleton<ConfigWindow>()
-            .AddSingleton<AbilitiesWindow>();
+            .AddSingleton<AbilitiesWindow>()
+            .AddSingleton<Widget>();
 
         /*private static IServiceCollection AddApi(this IServiceCollection services)
         => services.AddSingleton<CommandManager>();*/

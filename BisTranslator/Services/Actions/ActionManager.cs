@@ -101,6 +101,13 @@ namespace BisTranslator.Services.Actions
                 Marshal.WriteByte((IntPtr)gameControl, 23163, 0x1);
             }
 
+            //GilCheck
+            if (_config.GilCheck)
+            {
+                var gil = InventoryManager.Instance()->GetGil();
+                _config.GilOverflow = gil > _config.GilLimit;
+            }
+
             //FFXIVClientStructs.FFXIV.Client.UI.AddonSelectYesno
 
             /*var skip = false;
@@ -139,7 +146,7 @@ namespace BisTranslator.Services.Actions
                             return false;
                         }
 
-                        if (_config.canSelfCast)
+                        if (_config.canSelfCast && (ActionRoles)role == ActionRoles.Healer)
                         {
                             //_log.Debug($"[Action Manager]: {_objectTable.FirstOrDefault(x => x.ObjectId.Equals(target))?.ObjectKind}");
                             if (_clientState.LocalPlayer.ObjectId == target /*|| _objectTable.FirstOrDefault(x => x.ObjectId.Equals((uint)target))?.ObjectKind != Dalamud.Game.ClientState.Objects.Enums.ObjectKind.Player*/)
@@ -192,10 +199,9 @@ namespace BisTranslator.Services.Actions
                             }
                         }
                     }
-                    if (_config.GilCheck)
+                    if (_config.GilCheck && _config.GilOverflow)
                     {
-                        var gil = InventoryManager.Instance()->GetGil();
-                        if (gil > _config.GilLimit) return false;
+                        return false;
                     }
                 }
             }

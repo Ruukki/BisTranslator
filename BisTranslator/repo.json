@@ -1,0 +1,31 @@
+[
+    {
+        "Author": "ruukki",
+        "Contributors": [
+            "CordeliaMist"
+        ],
+        "Name": "BisTranslator",
+        "Punchline": "Rp god",
+        "Description": "",
+        "Tags": [
+            "Translator",
+            "Control",
+            "BDSM",
+            "RP"
+        ],
+        "InternalName": "BisTranslator",
+        "AssemblyVersion": "1.0.0",
+        "TestingAssemblyVersion": "1.0.0",
+        "RepoUrl": "https://github.com/Ruukki/BisTranslator",
+        "ApplicableVersion": "any",
+        "DalamudApiLevel": 9,
+        "IsHide": "False",
+        "IsTestingExclusive": "False",
+        "DownloadCount": 420,
+        "LastUpdate": 1618608322,
+        "DownloadLinkInstall": "https://github.com/CordeliaMist/Dalamud-GagSpeak/releases/download/v0.9.9.14-PreRelease/latest.zip",
+        "DownloadLinkUpdate": "https://github.com/CordeliaMist/Dalamud-GagSpeak/releases/download/v0.9.9.14-PreRelease/latest.zip",
+        "DownloadLinkTesting": "https://github.com/CordeliaMist/Dalamud-GagSpeak/releases/download/v0.9.9.14-PreRelease/latest.zip",
+        "IconUrl": "https://avatars.githubusercontent.com/u/11978560"
+    }
+]
