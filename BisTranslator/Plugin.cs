@@ -13,6 +13,7 @@ using System.Linq;
 using BisTranslator.Services.Actions;
 using System.Threading.Tasks;
 using System.Threading;
+using ChatTwo.Movement;
 
 namespace BisTranslator
 {
@@ -52,7 +53,7 @@ namespace BisTranslator
                 log.Debug($"client.IsLoggedIn: {client.IsLoggedIn}");
                 if (client != null && client.IsLoggedIn)
                 {
-                    overrides.Login();
+                    overrides.Login();                    
                 }
 
             }
@@ -83,7 +84,15 @@ namespace BisTranslator
         }
 
         public void Dispose()
-        {            
+        {
+            if (_config != null && _config.lockOnDisable)
+            {
+                var move = _services.GetRequiredService<MoveManager>();
+                if (move != null)
+                {
+                    move.DisableMoving();
+                }
+            }
             //this.CommandManager.RemoveHandler(CommandName);
         }
 

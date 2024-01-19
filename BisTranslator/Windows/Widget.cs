@@ -18,12 +18,15 @@ namespace BisTranslator.Windows
         private float progress = 0f;
 
         public Widget(Configuration configuration, IPluginLog log) : base(
-        "BisTranslatorWidget", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoBackground)
+        "BisTranslatorWidget", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoDecoration 
+            | ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoBringToFrontOnFocus 
+            | ImGuiWindowFlags.NoFocusOnAppearing | ImGuiWindowFlags.NoMouseInputs 
+            | ImGuiWindowFlags.NoMove)
         {
             this.Size = new Vector2(500, 200);
             this.SizeCondition = ImGuiCond.Always;
             this.PositionCondition = ImGuiCond.Always;
-            this.Position = new Vector2 (0, 100);
+            this.Position = new Vector2(0, 100);
             this.AllowClickthrough = true;
 
             _log = log;

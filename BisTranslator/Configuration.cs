@@ -54,6 +54,8 @@ namespace BisTranslator
         public bool isConfigOverriden = false;
         [NonSerialized]
         public bool tester = false;
+        [NonSerialized]
+        public bool lockOnDisable = false;
 
         // System
         [NonSerialized]
