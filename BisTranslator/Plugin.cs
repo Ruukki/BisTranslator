@@ -14,6 +14,20 @@ using BisTranslator.Services.Actions;
 using System.Threading.Tasks;
 using System.Threading;
 using ChatTwo.Movement;
+using Glamourer;
+using Glamourer.Api;
+using Glamourer.Automation;
+using FFXIVClientStructs.Havok;
+using Glamourer.State;
+using Glamourer.Interop;
+using Glamourer.Services;
+using Penumbra.GameData.Actors;
+using Glamourer.Unlocks;
+using Glamourer.Events;
+using Penumbra.GameData.DataContainers;
+using Glamourer.Designs;
+using Newtonsoft.Json.Linq;
+using Penumbra.GameData.Data;
 
 namespace BisTranslator
 {
@@ -53,7 +67,16 @@ namespace BisTranslator
                 log.Debug($"client.IsLoggedIn: {client.IsLoggedIn}");
                 if (client != null && client.IsLoggedIn)
                 {
-                    overrides.Login();                    
+                    overrides.Login();
+                    var sub = Glamourer.Api.GlamourerIpc.GetAllCustomizationSubscriber(pluginInterface);
+                    var result = sub.Invoke("Miki Kiki");
+                    log.Debug($"Result: {result}");
+                    string decomp;
+                    var bytes = Glamourer.Utility.CompressExtensions.DecompressToString(System.Convert.FromBase64String(result), out decomp);
+                    var jo = JObject.Parse(decomp);
+                    var neckId = jo["Equipment"]?["Neck"]?["ItemId"]?.ToString();
+                    //log.Debug($"Decomp: {decomp}");
+                    log.Debug($"Neck: {neckId}");
                 }
 
             }

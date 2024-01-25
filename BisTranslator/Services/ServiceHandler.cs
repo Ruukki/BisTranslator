@@ -7,6 +7,7 @@ using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using GagSpeak.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Penumbra.GameData.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace BisTranslator.Services
                 .AddAction()
                 //.AddApi()
                 .AddUi();
+            
             // return the built services provider in the form of a instanced service collection
             return services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true });
         }

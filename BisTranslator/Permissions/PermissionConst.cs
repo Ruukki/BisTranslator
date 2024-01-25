@@ -20,7 +20,7 @@ namespace BisTranslator.Permissions
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.Minimal,
                 GilCheck = true,
-                GilLimit = 110_000,
+                GilLimit = 100_000,
                 ForcedWalk = true,
                 canSelfCast = false,
                 BigPussy = false,
