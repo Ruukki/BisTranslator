@@ -1,4 +1,5 @@
 using BisTranslator.Permissions;
+using Dalamud.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,11 @@ namespace BisTranslator.Translator
                 {
                     text = text.Replace("/w ", "/tell ");
                 }
+                if (text.StartsWith("/t "))
+                {
+                    text = text.Replace("/t ", "/tell ");
+                }
+                
                 prefix = Regex.Match(text, @"(?<=^|\s)/tell\s{1}\S+\s{1}\S+@\S+(?=\s|$)").Value;
                 if (!string.IsNullOrEmpty(prefix))
                 {

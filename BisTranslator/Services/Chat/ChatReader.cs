@@ -2,6 +2,7 @@ using BisTranslator.Utility;
 using Dalamud.Game;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
+using Lumina;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BisTranslator.Services.Chat
@@ -25,13 +27,15 @@ namespace BisTranslator.Services.Chat
         private unsafe delegate byte ProcessChatInputDelegate(nint uiModule, byte** message, nint a3);  // delegate for the chat input
         private readonly List<string> _configChannelsCommandsList;
         private readonly IPluginLog _pluginLog;
+        private readonly IClientState _state;
 
         /// <summary> Initializes a new instance of the <see cref="ChatInputProcessor"/> class. </summary>
-        public ChatReader(ISigScanner scanner, IGameInteropProvider interop, Configuration config, IPluginLog pluginLog/*, HistoryService historyService*/)
+        public ChatReader(ISigScanner scanner, IGameInteropProvider interop, Configuration config, IPluginLog pluginLog, IClientState clientState)
         {
             // initialize interopfromattributes
             _config = config;
             _pluginLog = pluginLog;
+            _state = clientState;
             //_configChannelsCommandsList = _config.Channels.GetChatChannelsListAliases();
             //_historyService = historyService;
             interop.InitializeFromAttributes(this);
@@ -167,7 +171,12 @@ namespace BisTranslator.Services.Chat
                         _pluginLog.Debug($"[Chat Processor]: Input -> {inputString}, MatchedCommand -> {matchedCommand}");
                         // create the output translated text, cutting the command matched before to prevent it getting gargled
                         //var output = _messageGarbler.GarbleMessage(inputString.Substring(matchedCommand.Length), _config.GarbleLevel);
-                        var output = Translator.Translations.Translate(inputString);
+                        string output = inputString;
+                        var gagSpeakRegex = @$"(?<=^|\s)/t(?:ell)?\s{{1}}(?<name>\S+\s{{1}}\S+)@\S+\s{{1}}\*{_state?.LocalPlayer?.Name.TextValue}(?=\s|$)";
+                        if (Regex.Match(inputString, gagSpeakRegex).Value.IsNullOrEmpty())
+                        {
+                            output = Translator.Translations.Translate(inputString);
+                        }
                         // adding command back to front
                         //output = matchedCommand + output;
                         _pluginLog.Debug($"[Chat Processor]: Output -> {output}");
