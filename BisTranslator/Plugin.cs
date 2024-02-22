@@ -28,6 +28,8 @@ using Penumbra.GameData.DataContainers;
 using Glamourer.Designs;
 using Newtonsoft.Json.Linq;
 using Penumbra.GameData.Data;
+using BisTranslator.ClientData;
+using BisTranslator.Services.Glamourer;
 
 namespace BisTranslator
 {
@@ -61,6 +63,8 @@ namespace BisTranslator
                 _services.GetRequiredService<ChatManager>(); // Initialize the OnChatMessage
                 _services.GetRequiredService<ChatReader>(); // Initialize the chat message detour
                 _services.GetRequiredService<ActionManager>();
+                _services.GetService<ClientUserInfo>();
+                _services.GetService<GlamourerFunctions>();
                 var overrides = _services.GetRequiredService<OverrideManager>();
 
                 var client = _services.GetRequiredService<IClientState>();

@@ -19,13 +19,15 @@ namespace BisTranslator.Services
         private Configuration _config;
         DalamudPluginInterface _pluginInterface;
         private Widget _widget;
-        public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, DalamudPluginInterface pluginInterface, Widget widget)
+        private OverlayWindow _overlayWindow;
+        public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, DalamudPluginInterface pluginInterface, Widget widget, OverlayWindow overlayWindow)
         {
             _clientState = clientState;
             _log = log;
             _config = config;
             _pluginInterface = pluginInterface;
             _widget = widget;
+            _overlayWindow = overlayWindow;
 
             _clientState.Login += Login;
         }
@@ -49,6 +51,10 @@ namespace BisTranslator.Services
             if (!_widget.IsOpen)
             {
                 _widget.Toggle();
+            }
+            if (!_overlayWindow.IsOpen)
+            {
+                _overlayWindow.Toggle();
             }
         }
     }

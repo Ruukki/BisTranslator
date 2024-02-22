@@ -1,5 +1,7 @@
+using BisTranslator.ClientData;
 using BisTranslator.Services.Actions;
 using BisTranslator.Services.Chat;
+using BisTranslator.Services.Glamourer;
 using BisTranslator.Windows;
 using ChatTwo.Movement;
 using Dalamud.Game;
@@ -81,14 +83,18 @@ namespace BisTranslator.Services
 
         private static IServiceCollection AddExtras(this IServiceCollection services)
         => services.AddSingleton<PlugService>()
-            .AddSingleton<OverrideManager>();
+            .AddSingleton<OverrideManager>()
+            .AddSingleton<GlamourerService>()
+            .AddSingleton<GlamourerFunctions>()
+            .AddSingleton<ClientUserInfo>();
 
         private static IServiceCollection AddUi(this IServiceCollection services)
         => services.AddSingleton<WindowsService>()
             .AddSingleton<MainWindow>()
             .AddSingleton<ConfigWindow>()
             .AddSingleton<AbilitiesWindow>()
-            .AddSingleton<Widget>();
+            .AddSingleton<Widget>()
+            .AddSingleton<OverlayWindow>();
 
         /*private static IServiceCollection AddApi(this IServiceCollection services)
         => services.AddSingleton<CommandManager>();*/
