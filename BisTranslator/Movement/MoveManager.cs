@@ -24,7 +24,7 @@ namespace ChatTwo.Movement
         {
             if (MovingDisabled)
             {
-                PluginLog.Debug($"Enabling moving, cnt {_memory.ForceDisableMovement}");
+                //PluginLog.Debug($"Enabling moving, cnt {_memory.ForceDisableMovement}");
                 _memory.DisableHooks();
                 if (_memory.ForceDisableMovement > 0)
                 {
@@ -38,7 +38,7 @@ namespace ChatTwo.Movement
         {
             if (!MovingDisabled)
             {
-                PluginLog.Debug($"Disabling moving, cnt {_memory.ForceDisableMovement}");
+                //PluginLog.Debug($"Disabling moving, cnt {_memory.ForceDisableMovement}");
                 _memory.EnableHooks();
                 _memory.ForceDisableMovement++;
                 MovingDisabled = true;

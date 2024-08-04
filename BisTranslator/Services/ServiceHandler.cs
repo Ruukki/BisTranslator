@@ -17,7 +17,7 @@ namespace BisTranslator.Services
 {
     public static class ServiceHandler
     {
-        public static ServiceProvider CreateProvider(DalamudPluginInterface pi)
+        public static ServiceProvider CreateProvider(IDalamudPluginInterface pi)
         {
             // Create a service collection (see Dalamud.cs, if confused about AddDalamud, that is what AddDalamud(pi) pulls from)
             var services = new ServiceCollection()
@@ -33,14 +33,14 @@ namespace BisTranslator.Services
             return services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true });
         }
 
-        private static IServiceCollection AddDalamud(this IServiceCollection services, DalamudPluginInterface pi)
+        private static IServiceCollection AddDalamud(this IServiceCollection services, IDalamudPluginInterface pi)
         {
             // Add the dalamudservices to the service collection
             new DalamudServices(pi).AddServices(services);
             return services;
         }
 
-        private static IServiceCollection AddMeta(this IServiceCollection services, DalamudPluginInterface pi)
+        private static IServiceCollection AddMeta(this IServiceCollection services, IDalamudPluginInterface pi)
         {
             Configuration? config = pi.GetPluginConfig() as Configuration;
             if (config != null)

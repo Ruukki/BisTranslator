@@ -75,7 +75,7 @@ namespace BisTranslator.Services.Chat
         /// <item><c>message</c><param name="message"> - The message that was sent.</param></item>
         /// <item><c>isHandled</c><param name="isHandled"> - Whether or not the message was handled.</param></item>
         /// </list> </summary>
-        private void Chat_OnCheckMessageHandled(XivChatType type, uint senderid, ref SeString sender, ref SeString message, ref bool isHandled)
+        private void Chat_OnCheckMessageHandled(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
         {
             var chatTypes = new[] { XivChatType.TellIncoming, XivChatType.TellOutgoing };
             // if the message is a outgoing tell
@@ -122,7 +122,7 @@ namespace BisTranslator.Services.Chat
         /// <item><c>message</c><param name="message"> - The message that was sent.</param></item>
         /// <item><c>isHandled</c><param name="isHandled"> - Whether or not the message was handled.</param></item>
         /// </list> </summary>
-        private void Chat_OnChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString chatmessage, ref bool isHandled)
+        private void Chat_OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString chatmessage, ref bool isHandled)
         {
             _log.Debug($"[ChatManager]: chatmessage: {chatmessage.TextValue}");
             // create some new SeStrings for the message and the new line
@@ -272,87 +272,14 @@ namespace BisTranslator.Services.Chat
             #endregion
         }
 
-        private void Chat_OnChatMessageHandled(XivChatType type, uint senderId, SeString sender, SeString message)
+        private void Chat_OnChatMessageHandled(XivChatType type, int timestamp, SeString sender, SeString message)
         {
             _log.Debug($"Chat_OnChatMessageHandled");
         }
 
-        private void Chat_OnChatMessageUnhandled(XivChatType type, uint senderId, SeString sender, SeString message)
+        private void Chat_OnChatMessageUnhandled(XivChatType type, int timestamp, SeString sender, SeString message)
         {
             _log.Debug($"Chat_OnChatMessageUnhandled");
-        }
-
-        /// <summary>
-        /// Will search through the senders friend list to see if they are a friend or not.
-        /// <list type="bullet">
-        /// <item><c>nameInput</c><param name="nameInput"> - The name who you want to see if they are in your friend list or not</param></item>
-        /// </list></summary>
-        /// <returns> True if they are a friend, false if they are not. </returns>
-        private bool IsFriend(string nameInput)
-        {
-            // Check if it is possible for the client to grab the local player name, if so by default set to true.
-            if (nameInput == _clientState.LocalPlayer?.Name.TextValue) return true;
-            // after, scan through each object in the object table
-            foreach (var t in _objectTable)
-            {
-                // If the object is a player character (us), we found ourselves, so conmtinue on..
-                if (!(t is PlayerCharacter pc)) continue;
-                // If the player characters name matches the list of names from local players 
-                if (pc.Name.TextValue == nameInput)
-                {
-                    // See if they have a status of being a friend, if so return true, otherwise return false.
-                    return pc.StatusFlags.HasFlag(StatusFlags.Friend);
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Will search through the senders party list to see if they are a party member or not.
-        /// <list type="bullet">
-        /// <item><c>nameInput</c><param name="nameInput"> - The name who you want to see if they are in your party list or not</param></item>
-        /// </list></summary>
-        /// <returns> True if they are a party member, false if they are not. </returns>
-        private bool IsPartyMember(string nameInput)
-        {
-            if (nameInput == _clientState.LocalPlayer?.Name.TextValue) return true;
-            foreach (var t in _objectTable)
-            {
-                if (!(t is PlayerCharacter pc)) continue;
-                if (pc.Name.TextValue == nameInput)
-                    return pc.StatusFlags.HasFlag(StatusFlags.PartyMember);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Will search through the senders party list to see if they are a party member or not.
-        /// <list type="bullet">
-        /// <item><c>nameInput</c><param name="nameInput"> - The name who you want to see if they are in your party list or not</param></item>
-        /// </list></summary>
-        /// <returns> True if they are a party member, false if they are not. </returns>
-        private bool IsWhitelistedPlayer(string nameInput)
-        {
-            //// Check if it is possible for the client to grab the local player name, if so by default set to true.
-            //if (nameInput == _clientState.LocalPlayer?.Name.TextValue)
-            //{
-            //    return true;
-            //}
-            //foreach (var t in _objectTable)
-            //{
-            //    if (!(t is PlayerCharacter pc)) continue;
-            //    if (pc.Name.TextValue == nameInput)
-            //    {
-            //        foreach (var whitelistChar in _config.Whitelist)
-            //        {
-            //            if (whitelistChar.name.Contains(nameInput))
-            //            {
-            //                return true;
-            //            }
-            //        }
-            //    }
-            //}
-            return false;
         }
 
         /// <summary>

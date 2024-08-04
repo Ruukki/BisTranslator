@@ -62,14 +62,14 @@ namespace BisTranslator
         public bool GilOverflow = false;
         // the below exist just to make saving less cumbersome
         [NonSerialized]
-        private DalamudPluginInterface? _pluginInterface;
-        public Configuration(DalamudPluginInterface pluginInterface)
+        private IDalamudPluginInterface? _pluginInterface;
+        public Configuration(IDalamudPluginInterface pluginInterface)
         {
             _pluginInterface = pluginInterface;
         }
         public Configuration() { }
 
-        public void LoadInterface(DalamudPluginInterface pluginInterface)
+        public void LoadInterface(IDalamudPluginInterface pluginInterface)
         {
             _pluginInterface = pluginInterface;
         }
@@ -81,7 +81,7 @@ namespace BisTranslator
             _pluginInterface?.SavePluginConfig(this);
         }
 
-        public void Override(Configuration configuration, DalamudPluginInterface dalamudPluginInterface)
+        public void Override(Configuration configuration, IDalamudPluginInterface dalamudPluginInterface)
         {
             Version = configuration.Version;
             SomePropertyToBeSavedAndWithADefault = configuration.SomePropertyToBeSavedAndWithADefault;

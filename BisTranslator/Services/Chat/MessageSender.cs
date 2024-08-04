@@ -1,5 +1,4 @@
 using Dalamud.Game;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
 namespace BisTranslator.Services.Chat
 {
@@ -90,7 +90,7 @@ namespace BisTranslator.Services.Chat
                 throw new InvalidOperationException("Could not find signature for chat sending");
             }
             // Assuming it meets the correct conditions, we can begin to obtain the UI module pointer for the chatbox within the framework instance
-            var uiModule = (IntPtr)Framework.Instance()->GetUiModule();
+            var uiModule = (IntPtr)Framework.Instance()->GetUIModule();
 
             // create a payload for our chat message
             using var payload = new ChatPayload(message);

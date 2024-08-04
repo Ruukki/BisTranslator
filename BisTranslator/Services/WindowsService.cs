@@ -12,14 +12,14 @@ namespace BisTranslator.Services
     public class WindowsService
     {
         public WindowSystem WindowSystem = new("BisTranslator");
-        private readonly UiBuilder _uiBuilder;
+        private readonly IUiBuilder _uiBuilder;
 
         private ConfigWindow _configWindow { get; init; }
         private MainWindow _mainWindow { get; init; }
         private AbilitiesWindow _abilitiesWindow { get; init; }
         private Widget _widgetWindow { get; init; }
 
-        public WindowsService(UiBuilder uiBuilder, MainWindow mainWindow, ConfigWindow configWindow, AbilitiesWindow abilitiesWindow, Widget widgetWindow)
+        public WindowsService(IUiBuilder uiBuilder, MainWindow mainWindow, ConfigWindow configWindow, AbilitiesWindow abilitiesWindow, Widget widgetWindow)
         {
             _uiBuilder = uiBuilder;
 

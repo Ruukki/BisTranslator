@@ -15,7 +15,7 @@ public class DalamudServices
     /// <list type="bullet">
     /// <item><c>pluginInt</c><param name="pluginInt"> - The Dalamud plugin interface.</param></item>
     /// </list> </summary>
-    public DalamudServices(DalamudPluginInterface pluginInt)
+    public DalamudServices(IDalamudPluginInterface pluginInt)
     {
         // Set the services to the pluginInt
         pluginInt.Inject(this);
@@ -48,7 +48,7 @@ public class DalamudServices
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     [PluginService] public IGameInteropProvider GameInteropProvider { get; private set; } = null!; // helps with detouring the chat input for our plugin
-    [PluginService] public DalamudPluginInterface DalamudPluginInterface { get; private set; } = null!; // for interfacing w/ plugin.
+    [PluginService] public IDalamudPluginInterface DalamudPluginInterface { get; private set; } = null!; // for interfacing w/ plugin.
     [PluginService] public IChatGui ChatGui { get; private set; } = null!; // For interfacing with the chat
     [PluginService] public IClientState ClientState { get; private set; } = null!; // For interfacing with the client state, getting player info, etc.
     [PluginService] public ICommandManager CommandManager { get; private set; } = null!; // For interfacing with commands

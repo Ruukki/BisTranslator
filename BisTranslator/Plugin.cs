@@ -23,7 +23,7 @@ namespace BisTranslator
         private const string CommandName = "/slutify";
         private readonly ServiceProvider _services;
 
-        private DalamudPluginInterface PluginInterface { get; init; }
+        private IDalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
         private Configuration _config { get; init; }
         
@@ -31,8 +31,8 @@ namespace BisTranslator
         
 
         public Plugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] ICommandManager commandManager)
+            IDalamudPluginInterface pluginInterface,
+            ICommandManager commandManager)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace BisTranslator
                 log.Debug($"client.IsLoggedIn: {client.IsLoggedIn}");
                 if (client != null && client.IsLoggedIn)
                 {
-                    overrides.Login();                    
+                    overrides.Login();
                 }
 
             }

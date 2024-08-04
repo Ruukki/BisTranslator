@@ -17,9 +17,9 @@ namespace BisTranslator.Services
         private readonly IClientState _clientState;
         private readonly IPluginLog _log;
         private Configuration _config;
-        DalamudPluginInterface _pluginInterface;
+        IDalamudPluginInterface _pluginInterface;
         private Widget _widget;
-        public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, DalamudPluginInterface pluginInterface, Widget widget)
+        public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, IDalamudPluginInterface pluginInterface, Widget widget)
         {
             _clientState = clientState;
             _log = log;

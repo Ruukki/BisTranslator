@@ -16,6 +16,7 @@ namespace BisTranslator.Permissions
             }),*/
             new PlayerOverride("Miki Kiki", "Spriggan", new Configuration()
             {
+                //Name = "",
                 Name = "slut",
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.Minimal,

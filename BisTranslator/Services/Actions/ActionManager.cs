@@ -11,7 +11,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.Interop;
+using FFXIVClientStructs.Interop.Generated;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -56,7 +56,7 @@ namespace BisTranslator.Services.Actions
 
             _framework.Update += framework_Update;
 
-            UseActionHook = _gameInteropProvider.HookFromAddress<UseActionDelegate>((nint)FFXIVClientStructs.FFXIV.Client.Game.ActionManager.Addresses.UseAction.Value, UseActionDetour);
+            UseActionHook = _gameInteropProvider.HookFromAddress<UseActionDelegate>((nint)FFXIVClientStructs.FFXIV.Client.Game.ActionManager.MemberFunctionPointers.UseAction, UseActionDetour);
             UseActionHook.Enable();
 
             getRefValue = (GetRefValue)Delegate.CreateDelegate(typeof(GetRefValue), _keyState,
@@ -83,7 +83,7 @@ namespace BisTranslator.Services.Actions
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95]}");
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty97] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97]}");
 
-            uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 23163);
+            uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 24131);
             if (_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.Mounted] || 
                 _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty] || 
                 _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat] ||
@@ -93,12 +93,12 @@ namespace BisTranslator.Services.Actions
             {
                 if (isWalking == 1)
                 {
-                    Marshal.WriteByte((IntPtr)gameControl, 23163, 0x0);
+                    Marshal.WriteByte((IntPtr)gameControl, 24131, 0x0);
                 }
             }
             else if (isWalking == 0)
             {
-                Marshal.WriteByte((IntPtr)gameControl, 23163, 0x1);
+                Marshal.WriteByte((IntPtr)gameControl, 24131, 0x1);
             }
 
             //GilCheck
@@ -149,7 +149,7 @@ namespace BisTranslator.Services.Actions
                         if (_config.canSelfCast && (ActionRoles)role == ActionRoles.Healer)
                         {
                             //_log.Debug($"[Action Manager]: {_objectTable.FirstOrDefault(x => x.ObjectId.Equals(target))?.ObjectKind}");
-                            if (_clientState.LocalPlayer.ObjectId == target /*|| _objectTable.FirstOrDefault(x => x.ObjectId.Equals((uint)target))?.ObjectKind != Dalamud.Game.ClientState.Objects.Enums.ObjectKind.Player*/)
+                            if (_clientState.LocalPlayer.GameObjectId == (ulong)target /*|| _objectTable.FirstOrDefault(x => x.ObjectId.Equals((uint)target))?.ObjectKind != Dalamud.Game.ClientState.Objects.Enums.ObjectKind.Player*/)
                             {
                                 return false;
                             }
