@@ -1,8 +1,10 @@
 using BisTranslator.Permissions;
 using BisTranslator.Translator;
 using BisTranslator.Windows;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +29,10 @@ namespace BisTranslator.Services
             _pluginInterface = pluginInterface;
             _widget = widget;
 
-            _clientState.Login += Login;
         }
 
         public void Dispose()
         {
-            _clientState.Login -= Login;
         }
 
         public void Login()
@@ -43,13 +43,14 @@ namespace BisTranslator.Services
                 //_log.Debug($"configOverride: {configOverride == null} _clientState.LocalPlayer.Name.TextValue: {_clientState.LocalPlayer.Name.TextValue} _clientState.LocalPlayer.HomeWorld.GameData.InternalName: {_clientState.LocalPlayer.HomeWorld.GameData.InternalName}");
                 if ( configOverride != null )
                 {
+                    configOverride.OriginalName = _clientState.LocalPlayer.Name.TextValue;
                     _config.Override(configOverride, _pluginInterface);
                 }
             }
-            if (!_widget.IsOpen)
+            /*if (!_widget.IsOpen)
             {
                 _widget.Toggle();
-            }
+            }*/
         }
     }
 }

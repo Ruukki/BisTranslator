@@ -19,7 +19,7 @@ namespace BisTranslator.Permissions
                 //Name = "",
                 Name = "slut",
                 BannedActionRoles = new() {},
-                AbilityRestrictionLevel = AbilityRestrictionLevel.Minimal,
+                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
                 GilCheck = true,
                 GilLimit = 110_000,
                 ForcedWalk = true,
@@ -40,18 +40,33 @@ namespace BisTranslator.Permissions
                 lockedUiOverride = true,
                 tester = true
             }),
-            new PlayerOverride("Mia Hime", "Spriggan", new Configuration()
+            new PlayerOverride("Kayda Hagarin", "Spriggan", new Configuration()
             {
-                Name = "maid",
+                Name = "",
+                CommandName = "drone",
                 BannedActionRoles = new() {ActionRoles.Tank, ActionRoles.MeleeDps, ActionRoles.RangedDps},
-                AbilityRestrictionLevel = AbilityRestrictionLevel.Advanced,
-                GilCheck = true,
-                GilLimit = 110_000,
+                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
+                GilCheck = false,
+                GilLimit = long.MaxValue,
                 ForcedWalk = true,
                 canSelfCast = false,
                 BigPussy = false,
                 lockedUiOverride = true,
-                tester = true,
+                tester = false,
+            }),
+            new PlayerOverride("Kaori Kawashima", "Phantom", new Configuration()
+            {
+                Name = "whore",
+                CommandName = "whore",
+                BannedActionRoles = new() {ActionRoles.Tank, ActionRoles.MeleeDps, ActionRoles.RangedDps},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
+                GilCheck = false,
+                GilLimit = long.MaxValue,
+                ForcedWalk = true,
+                canSelfCast = false,
+                BigPussy = false,
+                lockedUiOverride = true,
+                tester = false,
             }),
         };
     }

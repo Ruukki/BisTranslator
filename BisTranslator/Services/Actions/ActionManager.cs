@@ -133,6 +133,14 @@ namespace BisTranslator.Services.Actions
             try
             {
                 _log.Debug($"[Action Manager]: {type} {acId} {target} {a5} {a6} {a7}");
+                if (_config.AbilityRestrictionLevel == AbilityRestrictionLevel.MovementBan)
+                {
+                    if(ActionType.Action == type && Abilities.movementSkills.ContainsKey(acId))
+                    {
+                        return false;
+                    }
+                }
+
                 if (ActionType.Action == type && acId > 7 && !Abilities.general.ContainsKey(acId))
                 {
                     if (_clientState != null

@@ -14,6 +14,11 @@ using BisTranslator.Services.Actions;
 using System.Threading.Tasks;
 using System.Threading;
 using ChatTwo.Movement;
+using System.Reflection;
+using Dalamud.Configuration;
+using BisTranslator.external;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace BisTranslator
 {
@@ -26,6 +31,10 @@ namespace BisTranslator
         private IDalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
         private Configuration _config { get; init; }
+
+        private IPluginLog log { get;set; }
+
+        private OverrideManager overrides { get; set; }
         
 
         
@@ -36,8 +45,11 @@ namespace BisTranslator
         {
             try
             {
+                this.PluginInterface = pluginInterface;
+                this.CommandManager = commandManager;
+                ExtractOverlay(pluginInterface);
                 _services = ServiceHandler.CreateProvider(pluginInterface);
-                var log = _services.GetRequiredService<IPluginLog>();
+                log = _services.GetRequiredService<IPluginLog>();
                 _services.GetRequiredService<WindowsService>();
                 _config = _services.GetRequiredService<Configuration>();
                 Translations.SetName(_config.Name);
@@ -47,24 +59,26 @@ namespace BisTranslator
                 _services.GetRequiredService<ChatManager>(); // Initialize the OnChatMessage
                 _services.GetRequiredService<ChatReader>(); // Initialize the chat message detour
                 _services.GetRequiredService<ActionManager>();
-                var overrides = _services.GetRequiredService<OverrideManager>();
+                overrides = _services.GetRequiredService<OverrideManager>();
 
                 var client = _services.GetRequiredService<IClientState>();
                 log.Debug($"client.IsLoggedIn: {client.IsLoggedIn}");
-                if (client != null && client.IsLoggedIn)
+                if (client != null)
                 {
-                    overrides.Login();
+                    client.Login += OnLogin;
+                    //debug
+                    if (client.IsLoggedIn)
+                    {
+                        OnLogin();
+                    }
                 }
-
+                               
             }
             catch
             {
                 Dispose();
                 throw;
-            }
-
-            this.PluginInterface = pluginInterface;
-            this.CommandManager = commandManager;
+            }            
 
             //this.Configuration = this._pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             //this.Configuration.Initialize(this._pluginInterface);
@@ -81,6 +95,49 @@ namespace BisTranslator
             });*/
 
             
+        }
+
+        private void OnLogin()
+        {
+            StartOverlay(PluginInterface);
+            overrides.Login();
+        }
+
+        private void ExtractOverlay(IDalamudPluginInterface plugin)
+        {            
+            try
+            {
+                var locDir = plugin.GetPluginLocDirectory();
+                var file = Path.Combine(locDir, "FFoverlay.zip");
+                var exe = Path.Combine(locDir, "FFoverlay.exe");
+                if(File.Exists(file) && !File.Exists(exe))
+                {
+                    ZipExtractor.ExtractZipFile(file, locDir);
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Error(ex.ToString());
+            }
+        }
+
+        private void StartOverlay(IDalamudPluginInterface plugin)
+        {
+            try
+            {
+                log.Debug("Starting overlay...");
+                var locDir = plugin.GetPluginLocDirectory();
+                var file = Path.Combine(locDir, "FFoverlay.exe");
+                if (File.Exists(file))
+                {
+                    ProcessLauncher.StartExecutable(file);
+                    log.Debug("Started overlay");
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.ToString());
+            }
         }
 
         public void Dispose()

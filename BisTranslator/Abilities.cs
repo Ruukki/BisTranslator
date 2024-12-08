@@ -116,6 +116,13 @@ namespace BisTranslator
             { 7434,"Excogitation" },
         };
 
+        public static Dictionary<uint, string> movementSkills = new Dictionary<uint, string>()
+        {
+            { 3,"Sprint" },
+            { 6,"Return" },
+            
+        };
+
         public static List<uint> SpellsHardcore { get; private set; } = minimalHealer.Select(x => x.Key).ToList();
         public static List<uint> SpellsMinimal { get; private set; } = SpellsHardcore.Concat(minimalHealerDps.Select(x => x.Key)).ToList();
         public static List<uint> SpellsAdvanced { get; private set; } = SpellsMinimal.Concat(advancedHealer.Select(x=>x.Key)).Concat(advancedHealerDps.Select(x=>x.Key)).ToList();
@@ -136,7 +143,8 @@ namespace BisTranslator
         Hardcore,
         Minimal,
         Advanced,
-        Spec
+        Spec,
+        MovementBan
     }
     public enum ActionRoles : byte
     {

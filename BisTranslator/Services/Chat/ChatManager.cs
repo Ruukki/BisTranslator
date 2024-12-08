@@ -15,6 +15,8 @@ using ChatTwo.Movement;
 using System.Threading;
 using static Lumina.Data.Parsing.Layer.LayerCommon;
 using BisTranslator.Permissions;
+using Newtonsoft.Json;
+using BisTranslator.Translator;
 
 namespace BisTranslator.Services.Chat
 {
@@ -78,6 +80,19 @@ namespace BisTranslator.Services.Chat
         private void Chat_OnCheckMessageHandled(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
         {
             var chatTypes = new[] { XivChatType.TellIncoming, XivChatType.TellOutgoing };
+
+            if (sender.TextValue.Equals(_config.OriginalName))
+            {
+                var senderJson = sender.ToJson();
+                senderJson = senderJson.Replace(_config.OriginalName, _config.Name);
+                var newSender = JsonConvert.DeserializeObject<SeString>(senderJson, new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    TypeNameHandling = TypeNameHandling.Auto,
+                    ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+                });
+                sender = newSender;
+            }
             // if the message is a outgoing tell
             if ((int)type < 56 || (int)type > 71)
             {

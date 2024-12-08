@@ -1,6 +1,8 @@
 using BisTranslator.Translator;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
+using Dalamud.Utility;
+using Lumina.Excel.GeneratedSheets;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,18 +22,19 @@ namespace BisTranslator
             {
                 if (UseFullMatch)
                 {
-                    return $@"(?i)^(?:{Name},)\s+(?:\((.*?)\)|(.+))"; //Full match
+                    return $@"(?i)^(?:{CommandName},)\s+(?:\((.*?)\)|(.+))"; //Full match
                 }
-                return @$"(?i)^(?:{Name},)\s+(?:\((.*?)\)|(\w+))"; //original                
+                return @$"(?i)^(?:{CommandName},)\s+(?:\((.*?)\)|(\w+))"; //original                
             }
         }
         
         public string Name { get; set; } = "your new name";
+        public string CommandName { get; set; }
         public string CommandMatch
         {
             get
             {
-                return $"\"{Name}, \"";
+                return $"\"{CommandName}, \"";
             }
         }
 
@@ -56,6 +59,9 @@ namespace BisTranslator
         public bool tester = false;
         [NonSerialized]
         public bool lockOnDisable = false;
+
+        [NonSerialized]
+        public string OriginalName;
 
         // System
         [NonSerialized]
@@ -86,6 +92,7 @@ namespace BisTranslator
             Version = configuration.Version;
             SomePropertyToBeSavedAndWithADefault = configuration.SomePropertyToBeSavedAndWithADefault;
             Name = configuration.Name;
+            CommandName = configuration.CommandName.IsNullOrEmpty() ? configuration.Name : configuration.CommandName;
             BigPussy = configuration.BigPussy;
             SuperSecretFeature = configuration.SuperSecretFeature;
             ForcedWalk = configuration.ForcedWalk;
@@ -97,6 +104,8 @@ namespace BisTranslator
             lockedUiOverride = configuration.lockedUiOverride;
             isConfigOverriden = true;
             tester = configuration.tester;
+
+            OriginalName = configuration.OriginalName;
 
             _pluginInterface = dalamudPluginInterface;
             Translations.SetName(Name);
