@@ -81,7 +81,9 @@ namespace BisTranslator.Services.Chat
         {
             var chatTypes = new[] { XivChatType.TellIncoming, XivChatType.TellOutgoing };
 
-            if (sender.TextValue.Equals(_config.OriginalName))
+            _log.Debug($"Sender: {sender.TextValue} type: {type}:{Enum.GetName(typeof(XivChatType), type)} message: {message.TextValue}");
+            var originalSender = sender;
+            if ((int)type <= 107 && sender.TextValue.Equals(_config.OriginalName))
             {
                 var senderJson = sender.ToJson();
                 senderJson = senderJson.Replace(_config.OriginalName, _config.Name);
@@ -92,9 +94,9 @@ namespace BisTranslator.Services.Chat
                     ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
                 });
                 sender = newSender;
-            }
-            // if the message is a outgoing tell
-            if ((int)type < 56 || (int)type > 71)
+            }            
+            // if the message is incoming tell
+            if (((int)type < 56 || (int)type > 71) && (int)type != 12)
             {
                 //_log.Debug($"Chat_OnCheckMessageHandled {message.TextValue}");
                 var match = Regex.Match(message.TextValue, _config.CommandRegex);
@@ -120,10 +122,29 @@ namespace BisTranslator.Services.Chat
 
                         Thread.Sleep(5000);
                         _moveManager.EnableMoving();
+                        _log.Debug($"ChatManager enableMovement");
                     });
                     // if it does, hide it from the chat log
                     isHandled = true;
                     return;
+                }
+                //_log.Debug($"newSender: {sender.TextValue}");
+                //_log.Debug($"_config.OwnerName: {_config.OwnerName} {_config.ForcedChat}");
+                if (_config.ForcedChat && originalSender.TextValue.Equals(_config.OwnerName))
+                {
+                    var matchSay = Regex.Match(message.TextValue, _config.CommandSayRegex);
+                    if (matchSay.Success)
+                    {
+                        var matched = matchSay.Groups[2].Value;
+                        _log.Debug($"match.Success {matched}");
+
+                        _messageSender.SendMessage($"{matched}");
+                        _clientChat.Print(new SeStringBuilder().AddItalicsOn().AddUiForeground(31).AddText($"{sender.TextValue}").AddUiForegroundOff()
+                            .AddText($" forced you to say \"{matched}\".")
+                            .AddItalicsOff().BuiltString);
+                        isHandled = true;
+                        return;
+                    }
                 }
             }
         }
@@ -145,7 +166,7 @@ namespace BisTranslator.Services.Chat
             var nline = new SeString(new List<Payload>());
             nline.Payloads.Add(new TextPayload("\n"));
             // make payload for the player
-            PlayerPayload playerPayload;
+            PlayerPayload? playerPayload;
             //removes special characters in party listings [https://na.finalfantasyxiv.com/lodestone/character/10080203/blog/2891974/]
             List<char> toRemove = new() {
             '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
@@ -158,7 +179,7 @@ namespace BisTranslator.Services.Chat
             // if the sender is the local player, set the player payload to the local player 
             if (sanitized == _clientState.LocalPlayer?.Name.TextValue)
             {
-                playerPayload = new PlayerPayload(_clientState.LocalPlayer.Name.TextValue, _clientState.LocalPlayer.HomeWorld.Id);
+                playerPayload = sender.Payloads.SingleOrDefault(x => x is PlayerPayload) as PlayerPayload;
                 if (type == XivChatType.CustomEmote)
                 {
                     var playerName = new SeString(new List<Payload>());

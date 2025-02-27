@@ -6,7 +6,6 @@ using Dalamud.Interface.Internal;
 using Dalamud.Interface.Windowing;
 using FFXIVClientStructs.Havok;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
 
 namespace BisTranslator.Windows;
 

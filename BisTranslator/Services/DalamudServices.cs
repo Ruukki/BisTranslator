@@ -1,4 +1,5 @@
-using Dalamud.Game;				// Provides service classes for interacting with the game
+using Dalamud.Game;             // Provides service classes for interacting with the game
+using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.IoC; 				// Provides service classes for dependency injection
 using Dalamud.Plugin; 			// Provides interfaces and service classes for creating Dalamud plugins
 using Dalamud.Plugin.Services; 	// Provides service classes for plugin services
@@ -43,6 +44,7 @@ public class DalamudServices
         services.AddSingleton(PartyFinderGui);
         services.AddSingleton(SigScanner);
         services.AddSingleton(Condition);
+        //services.AddSingleton(GameObject);
         services.AddSingleton(this);
     }
 
@@ -61,6 +63,7 @@ public class DalamudServices
     [PluginService] public ISigScanner SigScanner { get; private set; } = null!; // For getting our signatures to perform the operations in our danger files.
     [PluginService] public IDtrBar DtrBar { get; private set; } = null!;
     [PluginService] public ICondition Condition { get; private set; } = null!;
+    //[PluginService] public IGameObject GameObject { get; private set; } = null!;
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }

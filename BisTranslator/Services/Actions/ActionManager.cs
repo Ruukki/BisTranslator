@@ -3,6 +3,7 @@ using BisTranslator.Services.Chat;
 using ChatTwo.Movement;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Keys;
+using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Plugin.Services;
@@ -10,8 +11,12 @@ using Dalamud.Utility;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
+using FFXIVClientStructs.FFXIV.Client.Graphics.Render;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.Havok.Common.Base.Types;
 using FFXIVClientStructs.Interop.Generated;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -67,8 +72,6 @@ namespace BisTranslator.Services.Actions
             _objectTable = gameObjects;
 
             //_log.Debug($"[Action Manager]: x {FFXIVClientStructs.FFXIV.Client.UI.AddonContentsFinder.Addresses.VTable.}");
-            
-
         }
 
         public void Dispose()
@@ -83,22 +86,17 @@ namespace BisTranslator.Services.Actions
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95]}");
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty97] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97]}");
 
-            uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 24131);
-            if (_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.Mounted] || 
-                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty] || 
-                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat] ||
-                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty56] ||
-                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] ||
-                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97])
+            uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 30211);
+            if (insideInstance())
             {
                 if (isWalking == 1)
                 {
-                    Marshal.WriteByte((IntPtr)gameControl, 24131, 0x0);
+                    Marshal.WriteByte((IntPtr)gameControl, 30211, 0x0);
                 }
             }
             else if (isWalking == 0)
             {
-                Marshal.WriteByte((IntPtr)gameControl, 24131, 0x1);
+                Marshal.WriteByte((IntPtr)gameControl, 30211, 0x1);
             }
 
             //GilCheck
@@ -133,7 +131,7 @@ namespace BisTranslator.Services.Actions
             try
             {
                 _log.Debug($"[Action Manager]: {type} {acId} {target} {a5} {a6} {a7}");
-                if (_config.AbilityRestrictionLevel == AbilityRestrictionLevel.MovementBan)
+                if (!insideInstance() && _config.AbilityRestrictionLevel == AbilityRestrictionLevel.MovementBan)
                 {
                     if(ActionType.Action == type && Abilities.movementSkills.ContainsKey(acId))
                     {
@@ -144,11 +142,9 @@ namespace BisTranslator.Services.Actions
                 if (ActionType.Action == type && acId > 7 && !Abilities.general.ContainsKey(acId))
                 {
                     if (_clientState != null
-                        && _clientState.LocalPlayer != null
-                        && _clientState.LocalPlayer.ClassJob != null
-                        && _clientState.LocalPlayer.ClassJob.GameData != null)
+                        && _clientState.LocalPlayer != null)
                     {
-                        var role = _clientState.LocalPlayer.ClassJob.GameData.Role;
+                        var role = _clientState.LocalPlayer.ClassJob.Value.Role;
                         if (_config.BannedActionRoles.Contains((ActionRoles)role))
                         {
                             return false;
@@ -219,6 +215,16 @@ namespace BisTranslator.Services.Actions
             }
             var ret = UseActionHook.Original(am, type, acId, target, a5, a6, a7, a8);
             return ret;
+        }
+
+        private bool insideInstance()
+        {
+            return _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.Mounted] ||
+                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty] ||
+                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat] ||
+                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty56] ||
+                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] ||
+                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97];
         }
 
     }

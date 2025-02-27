@@ -47,7 +47,7 @@ namespace BisTranslator
             {
                 this.PluginInterface = pluginInterface;
                 this.CommandManager = commandManager;
-                ExtractOverlay(pluginInterface);
+                //ExtractOverlay(pluginInterface);
                 _services = ServiceHandler.CreateProvider(pluginInterface);
                 log = _services.GetRequiredService<IPluginLog>();
                 _services.GetRequiredService<WindowsService>();
@@ -62,7 +62,7 @@ namespace BisTranslator
                 overrides = _services.GetRequiredService<OverrideManager>();
 
                 var client = _services.GetRequiredService<IClientState>();
-                log.Debug($"client.IsLoggedIn: {client.IsLoggedIn}");
+                log.Debug($"client.IsLoggedIn: {client.IsLoggedIn} clientNull: {client == null}");
                 if (client != null)
                 {
                     client.Login += OnLogin;
@@ -89,16 +89,17 @@ namespace BisTranslator
 
             
 
-            /*this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
+            this.CommandManager.AddHandler("/test", new CommandInfo(OnCommand)
             {
                 HelpMessage = "A useful message to display in /xlhelp"
-            });*/
+            });
 
             
         }
 
         private void OnLogin()
         {
+            //log.Debug($"OnLogin()");
             StartOverlay(PluginInterface);
             overrides.Login();
         }
@@ -148,6 +149,7 @@ namespace BisTranslator
                 if (move != null)
                 {
                     move.DisableMoving();
+                    log.Warning("Movement disabled by Dispose");
                 }
             }
             //this.CommandManager.RemoveHandler(CommandName);
@@ -155,6 +157,12 @@ namespace BisTranslator
 
         private void OnCommand(string command, string args)
         {
+            var move = _services.GetRequiredService<MoveManager>();
+            if (move != null)
+            {
+                move.EnableMoving();
+                log.Warning("Test command");
+            }
             // in response to the slash command, just display our main ui
             //_mainWindow.IsOpen = true;
         }

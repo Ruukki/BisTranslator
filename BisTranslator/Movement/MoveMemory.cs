@@ -61,78 +61,23 @@ namespace ChatTwo.Movement
 
 
 
-
-        delegate byte InputData_IsInputIDKeyPressedDelegate(nint a1, int key);
-        [Signature("E8 ?? ?? ?? ?? 33 DB 41 8B D5", DetourName = nameof(InputData_IsInputIDKeyPressedDetour), Fallibility = Fallibility.Infallible)]
-        Hook<InputData_IsInputIDKeyPressedDelegate> InputData_IsInputIDKeyPressedHook;
-        byte InputData_IsInputIDKeyPressedDetour(nint a1, int key)
-        {
-            //InternalLog.Verbose($"Pressed: {key}");
-            if (key.EqualsAny(MoveManager.BlockedKeys)) return 0;
-            return InputData_IsInputIDKeyPressedHook.Original(a1, key);
-        }
-
-
-        delegate byte InputData_IsInputIDKeyClickedDelegate(nint a1, int key);
-        [Signature("48 89 5C 24 ?? 56 41 56 41 57 48 83 EC 20 48 63 C2", DetourName = nameof(InputData_IsInputIDKeyClickedDetour), Fallibility = Fallibility.Infallible)]
-        Hook<InputData_IsInputIDKeyClickedDelegate> InputData_IsInputIDKeyClickedHook;
-        byte InputData_IsInputIDKeyClickedDetour(nint a1, int key)
-        {
-            //InternalLog.Verbose($"Clicked: {key}");
-            if (key.EqualsAny(MoveManager.BlockedKeys)) return 0;
-            return InputData_IsInputIDKeyClickedHook.Original(a1, key);
-        }
-
-
-        delegate byte InputData_IsInputIDKeyHeldDelegate(nint a1, int key);
-        [Signature("E8 ?? ?? ?? ?? 84 DB 0F B6 D0", DetourName = nameof(InputData_IsInputIDKeyHeldDetour), Fallibility = Fallibility.Infallible)]
-        Hook<InputData_IsInputIDKeyHeldDelegate> InputData_IsInputIDKeyHeldHook;
-        byte InputData_IsInputIDKeyHeldDetour(nint a1, int key)
-        {
-            //InternalLog.Verbose($"Held: {key}");
-            if (key.EqualsAny(MoveManager.BlockedKeys)) return 0;
-            return InputData_IsInputIDKeyHeldHook.Original(a1, key);
-        }
-
-
-        delegate byte InputData_IsInputIDKeyReleasedDelegate(nint a1, int key);
-        [Signature("E8 ?? ?? ?? ?? 88 43 0F", DetourName = nameof(InputData_IsInputIDKeyReleasedDetour), Fallibility = Fallibility.Infallible)]
-        Hook<InputData_IsInputIDKeyReleasedDelegate> InputData_IsInputIDKeyReleasedHook;
-        byte InputData_IsInputIDKeyReleasedDetour(nint a1, int key)
-        {
-            //InternalLog.Verbose($"Released: {key}");
-            if (key.EqualsAny(MoveManager.BlockedKeys)) return 0;
-            return InputData_IsInputIDKeyReleasedHook.Original(a1, key);
-        }
         #endregion
 
         internal void EnableHooks()
         {
 
             MouseMovePreventerHook.Enable();
-            InputData_IsInputIDKeyPressedHook.Enable();
-            InputData_IsInputIDKeyClickedHook.Enable();
-            InputData_IsInputIDKeyHeldHook.Enable();
-            InputData_IsInputIDKeyReleasedHook.Enable();
         }
 
         internal void DisableHooks()
         {
             MouseMovePreventerHook.Disable();
-            InputData_IsInputIDKeyPressedHook.Disable();
-            InputData_IsInputIDKeyClickedHook.Disable();
-            InputData_IsInputIDKeyHeldHook.Disable();
-            InputData_IsInputIDKeyReleasedHook.Disable();
         }
 
         public void Dispose()
         {
             DisableHooks();
             MouseMovePreventerHook.Disable();
-            InputData_IsInputIDKeyPressedHook.Disable();
-            InputData_IsInputIDKeyClickedHook.Disable();
-            InputData_IsInputIDKeyHeldHook.Disable();
-            InputData_IsInputIDKeyReleasedHook.Disable();
             //UseActionHook.Disable();
             //UseActionHook.Dispose();
         }

@@ -2,7 +2,6 @@ using BisTranslator.Translator;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,15 @@ namespace BisTranslator
                 return @$"(?i)^(?:{CommandName},)\s+(?:\((.*?)\)|(\w+))"; //original                
             }
         }
-        
+
+        public string CommandSayRegex
+        {
+            get
+            {
+                    return $@"(?i)^(?:{CommandName} say:)\s+(?:\((.*?)\)|(.+))"; //Full match           
+            }
+        }
+
         public string Name { get; set; } = "your new name";
         public string CommandName { get; set; }
         public string CommandMatch
@@ -42,6 +49,8 @@ namespace BisTranslator
         public bool SuperSecretFeature { get; set; } = false;
 
         public bool ForcedWalk { get; set; } = true;
+        public bool ForcedChat { get; set; } = false;
+        public string OwnerName { get; set; } = "";
 
         #region Ability related
         public bool GilCheck { get; set;} = true;
@@ -96,6 +105,8 @@ namespace BisTranslator
             BigPussy = configuration.BigPussy;
             SuperSecretFeature = configuration.SuperSecretFeature;
             ForcedWalk = configuration.ForcedWalk;
+            ForcedChat = configuration.ForcedChat;
+            OwnerName = configuration.OwnerName;
             GilCheck = configuration.GilCheck;
             GilLimit = configuration.GilLimit;
             AbilityRestrictionLevel = configuration.AbilityRestrictionLevel;

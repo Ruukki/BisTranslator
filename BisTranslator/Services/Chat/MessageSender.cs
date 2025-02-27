@@ -16,7 +16,7 @@ namespace BisTranslator.Services.Chat
         /// <summary> This is the signature for the chatbox, it is used to find the chatbox in memory. </summary>
         private static class Signatures
         {
-            internal const string SendChat = "48 89 5C 24 ?? 57 48 83 EC 20 48 8B FA 48 8B D9 45 84 C9"; // The Signatures for sending a message to the server
+            internal const string SendChat = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 48 8B F2 48 8B F9 45 84 C9"; // The Signatures for sending a message to the server
         }
 
         // Next we need to process the chatbox delgate, meaning we need to get the pointer for the uimodule, message, unused information and byte data

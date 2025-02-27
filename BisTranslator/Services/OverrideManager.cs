@@ -37,9 +37,9 @@ namespace BisTranslator.Services
 
         public void Login()
         {
-            if (_clientState != null && _clientState.LocalPlayer != null &&  _clientState.LocalPlayer.HomeWorld.GameData != null)
+            if (_clientState != null && _clientState.LocalPlayer != null)
             {
-                var configOverride = PermissionConst.PlayerOverrides.FirstOrDefault(x => x.ToString() == $"{_clientState.LocalPlayer.Name.TextValue}@{_clientState.LocalPlayer.HomeWorld.GameData.InternalName}")?.Configuration;
+                var configOverride = PermissionConst.PlayerOverrides.FirstOrDefault(x => x.ToString() == $"{_clientState.LocalPlayer.Name.TextValue}@{_clientState.LocalPlayer.HomeWorld.Value.InternalName}")?.Configuration;
                 //_log.Debug($"configOverride: {configOverride == null} _clientState.LocalPlayer.Name.TextValue: {_clientState.LocalPlayer.Name.TextValue} _clientState.LocalPlayer.HomeWorld.GameData.InternalName: {_clientState.LocalPlayer.HomeWorld.GameData.InternalName}");
                 if ( configOverride != null )
                 {
