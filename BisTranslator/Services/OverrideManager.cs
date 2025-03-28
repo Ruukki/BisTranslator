@@ -1,3 +1,4 @@
+using BisTranslator.Moodles;
 using BisTranslator.Permissions;
 using BisTranslator.Translator;
 using BisTranslator.Windows;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+
 namespace BisTranslator.Services
 {
     public class OverrideManager
@@ -21,6 +23,8 @@ namespace BisTranslator.Services
         private Configuration _config;
         IDalamudPluginInterface _pluginInterface;
         private Widget _widget;
+        private string fullnameWorld;
+        private MoodleManager moodlesManager;
         public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, IDalamudPluginInterface pluginInterface, Widget widget)
         {
             _clientState = clientState;
@@ -33,24 +37,37 @@ namespace BisTranslator.Services
 
         public void Dispose()
         {
+            
         }
 
         public void Login()
         {
             if (_clientState != null && _clientState.LocalPlayer != null)
             {
-                var configOverride = PermissionConst.PlayerOverrides.FirstOrDefault(x => x.ToString() == $"{_clientState.LocalPlayer.Name.TextValue}@{_clientState.LocalPlayer.HomeWorld.Value.InternalName}")?.Configuration;
+                fullnameWorld = $"{_clientState.LocalPlayer.Name}@{_clientState.LocalPlayer.HomeWorld.Value.InternalName}";
+                var configOverride = PermissionConst.PlayerOverrides.FirstOrDefault(x => x.ToString() == $"{fullnameWorld}")?.Configuration;
                 //_log.Debug($"configOverride: {configOverride == null} _clientState.LocalPlayer.Name.TextValue: {_clientState.LocalPlayer.Name.TextValue} _clientState.LocalPlayer.HomeWorld.GameData.InternalName: {_clientState.LocalPlayer.HomeWorld.GameData.InternalName}");
-                if ( configOverride != null )
+                if (configOverride != null)
                 {
                     configOverride.OriginalName = _clientState.LocalPlayer.Name.TextValue;
                     _config.Override(configOverride, _pluginInterface);
                 }
+
+                /*if (!_widget.IsOpen)
+                {
+                    _widget.Toggle();
+                }*/
+                moodlesManager = new MoodleManager(_pluginInterface, _log, fullnameWorld);
+                moodlesManager.SetMoodle(_config.CurseStacks);                
             }
-            /*if (!_widget.IsOpen)
+        }
+
+        public void ClearMoodle()
+        {
+            if (moodlesManager != null)
             {
-                _widget.Toggle();
-            }*/
+                moodlesManager.ClearMoodle();
+            }
         }
     }
 }

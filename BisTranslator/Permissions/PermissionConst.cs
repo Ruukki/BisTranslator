@@ -17,7 +17,8 @@ namespace BisTranslator.Permissions
             new PlayerOverride("Miki Kiki", "Spriggan", new Configuration()
             {
                 //Name = "",
-                Name = "slut",
+                Name = "Miki",
+                CommandName = "slut",
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
                 GilCheck = false,
@@ -26,9 +27,10 @@ namespace BisTranslator.Permissions
                 canSelfCast = true,
                 BigPussy = true,
                 lockedUiOverride = true,
-                tester = true,
+                tester = false,
                 ForcedChat = true,
                 OwnerName = "Miki Kiki",
+                CurseStacks = 13,
             }),
             new PlayerOverride("Vie Crevan", "Spriggan", new Configuration()
             {
@@ -125,6 +127,26 @@ namespace BisTranslator.Permissions
                 BigPussy = false,
                 lockedUiOverride = true,
                 tester = false,
+                ForcedChat = true,
+                OwnerName = "Miki KikiSpriggan",
+                CurseStacks = 6,
+            }),
+            new PlayerOverride("Suna Furukane", "Shiva", new Configuration()
+            {
+                Name = "bitch",
+                CommandName = "bitch",
+                BannedActionRoles = new() {},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
+                GilCheck = false,
+                GilLimit = long.MaxValue,
+                ForcedWalk = true,
+                canSelfCast = true,
+                BigPussy = false,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Miki KikiSpriggan",
+                CurseStacks = 6,
             }),
         };
     }

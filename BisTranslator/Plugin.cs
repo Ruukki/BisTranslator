@@ -143,6 +143,7 @@ namespace BisTranslator
 
         public void Dispose()
         {
+            overrides.ClearMoodle();
             if (_config != null && _config.lockOnDisable)
             {
                 var move = _services.GetRequiredService<MoveManager>();

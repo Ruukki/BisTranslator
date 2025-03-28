@@ -1,0 +1,29 @@
+
+global using MoodlesStatusInfo = (
+    System.Guid GUID,
+    int IconID,
+    string Title,
+    string Description,
+    Moodles.Data.StatusType Type,
+    string Applier,
+    bool Dispelable,
+    int Stacks,
+    bool Persistent,
+    int Days,
+    int Hours,
+    int Minutes,
+    int Seconds,
+    bool NoExpire,
+    bool AsPermanent,
+    System.Guid StatusOnDispell,
+    string CustomVFXPath,
+    bool StackOnReapply,
+    int StacksIncOnReapply
+    );
+
+/*public enum StatusType
+{
+    Positive,
+    Negative,
+    Special
+}*/

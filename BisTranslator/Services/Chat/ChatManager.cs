@@ -81,7 +81,7 @@ namespace BisTranslator.Services.Chat
         {
             var chatTypes = new[] { XivChatType.TellIncoming, XivChatType.TellOutgoing };
 
-            _log.Debug($"Sender: {sender.TextValue} type: {type}:{Enum.GetName(typeof(XivChatType), type)} message: {message.TextValue}");
+            //_log.Debug($"Sender: {sender.TextValue} type: {type}:{Enum.GetName(typeof(XivChatType), type)} message: {message.TextValue}");
             var originalSender = sender;
             if ((int)type <= 107 && sender.TextValue.Equals(_config.OriginalName))
             {

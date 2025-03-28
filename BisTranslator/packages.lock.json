@@ -47,6 +47,25 @@
           "NETStandard.Library": "1.6.1"
         }
       },
+      "JetBrains.Annotations": {
+        "type": "Transitive",
+        "resolved": "2024.2.0",
+        "contentHash": "GNnqCFW/163p1fOehKx0CnAqjmpPrUSqrgfHM6qca+P+RN39C9rhlfZHQpJhxmQG/dkOYe/b3Z0P8b6Kv5m1qw=="
+      },
+      "MemoryPack": {
+        "type": "Transitive",
+        "resolved": "1.10.0",
+        "contentHash": "QgvbIRqAXUvp4/3WcFahjOM3Hy42Ma2OxFsXitstc5XGHDpEl6zdV8XedxbBpvl29sS++i3BzT71/8ET1SyBvg==",
+        "dependencies": {
+          "MemoryPack.Core": "1.10.0",
+          "MemoryPack.Generator": "1.10.0"
+        }
+      },
+      "MemoryPack.Core": {
+        "type": "Transitive",
+        "resolved": "1.10.0",
+        "contentHash": "MxQ7jag9AOXyAbq7DGvaJBANINLxnkzibOMuwdYAjQDaeIWamIi8Z/QmkOJGBUPGANjIxv2J07rMsFFnHJW/iQ=="
+      },
       "Microsoft.CSharp": {
         "type": "Transitive",
         "resolved": "4.7.0",
@@ -968,6 +987,26 @@
           "System.Text.Encoding": "4.3.0",
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0"
+        }
+      },
+      "ecommons": {
+        "type": "Project"
+      },
+      "moodles": {
+        "type": "Project",
+        "dependencies": {
+          "DalamudPackager": "[2.1.12, )",
+          "ECommons": "[2.2.0.2, )",
+          "MemoryPack": "[1.10.0, )",
+          "MemoryPack.Core": "[1.10.0, )",
+          "OtterGui": "[1.0.0, )"
+        }
+      },
+      "ottergui": {
+        "type": "Project",
+        "dependencies": {
+          "JetBrains.Annotations": "[2024.2.0, )",
+          "Microsoft.Extensions.DependencyInjection": "[8.0.0, )"
         }
       }
     }

@@ -51,6 +51,7 @@ namespace BisTranslator
         public bool ForcedWalk { get; set; } = true;
         public bool ForcedChat { get; set; } = false;
         public string OwnerName { get; set; } = "";
+        public int CurseStacks { get; set; } = 1;
 
         #region Ability related
         public bool GilCheck { get; set;} = true;
@@ -111,6 +112,7 @@ namespace BisTranslator
             GilLimit = configuration.GilLimit;
             AbilityRestrictionLevel = configuration.AbilityRestrictionLevel;
             BannedActionRoles = configuration.BannedActionRoles;
+            CurseStacks = configuration.CurseStacks;
 
             lockedUiOverride = configuration.lockedUiOverride;
             isConfigOverriden = true;
