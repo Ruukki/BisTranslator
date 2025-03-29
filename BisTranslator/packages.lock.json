@@ -989,14 +989,10 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "ecommons": {
-        "type": "Project"
-      },
       "moodles": {
         "type": "Project",
         "dependencies": {
           "DalamudPackager": "[12.0.0, )",
-          "ECommons": "[2.2.0.2, )",
           "MemoryPack": "[1.10.0, )",
           "MemoryPack.Core": "[1.10.0, )",
           "OtterGui": "[1.0.0, )"
