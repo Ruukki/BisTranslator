@@ -130,7 +130,7 @@ namespace BisTranslator.Services.Chat
                 }
                 //_log.Debug($"newSender: {sender.TextValue}");
                 //_log.Debug($"_config.OwnerName: {_config.OwnerName} {_config.ForcedChat}");
-                if (_config.ForcedChat && originalSender.TextValue.Equals(_config.OwnerName))
+                if (_config.ForcedChat && originalSender.TextValue.StartsWith(_config.OwnerName))
                 {
                     var matchSay = Regex.Match(message.TextValue, _config.CommandSayRegex);
                     if (matchSay.Success)

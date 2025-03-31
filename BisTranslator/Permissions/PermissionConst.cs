@@ -128,7 +128,7 @@ namespace BisTranslator.Permissions
                 lockedUiOverride = true,
                 tester = false,
                 ForcedChat = true,
-                OwnerName = "Miki KikiSpriggan",
+                OwnerName = "Miki Kiki",
                 CurseStacks = 6,
             }),
             new PlayerOverride("Suna Furukane", "Shiva", new Configuration()
@@ -145,7 +145,7 @@ namespace BisTranslator.Permissions
                 lockedUiOverride = true,
                 tester = false,
                 ForcedChat = true,
-                OwnerName = "Miki KikiSpriggan",
+                OwnerName = "Miki Kiki",
                 CurseStacks = 6,
             }),
         };

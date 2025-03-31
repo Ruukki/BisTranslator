@@ -19,6 +19,7 @@ using Dalamud.Configuration;
 using BisTranslator.external;
 using System;
 using System.Runtime.CompilerServices;
+using ECommons.DalamudServices;
 
 namespace BisTranslator
 {
@@ -67,9 +68,11 @@ namespace BisTranslator
                 {
                     client.Login += OnLogin;
                     //debug
-                    if (client.IsLoggedIn)
+                    if (client.IsLoggedIn) 
                     {
-                        OnLogin();
+                        var framework = _services.GetRequiredService<IFramework>();
+                        framework.RunOnFrameworkThread(() => OnLogin() );
+                                               
                     }
                 }
                                
@@ -100,7 +103,7 @@ namespace BisTranslator
         private void OnLogin()
         {
             //log.Debug($"OnLogin()");
-            StartOverlay(PluginInterface);
+            //StartOverlay(PluginInterface);
             overrides.Login();
         }
 
