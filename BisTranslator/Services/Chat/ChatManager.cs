@@ -9,14 +9,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using ChatTwo.Movement;
-using System.Threading;
 using static Lumina.Data.Parsing.Layer.LayerCommon;
 using BisTranslator.Permissions;
 using Newtonsoft.Json;
 using BisTranslator.Translator;
+using FFXIVClientStructs.FFXIV.Component.GUI;
+using static FFXIVClientStructs.FFXIV.Client.Graphics.Kernel.VertexShader;
 
 namespace BisTranslator.Services.Chat
 {
@@ -96,7 +98,7 @@ namespace BisTranslator.Services.Chat
                 sender = newSender;
             }            
             // if the message is incoming tell
-            if (((int)type < 56 || (int)type > 71) && (int)type != 12)
+            if (((int)type < 56 || ((int)type > 71 && (int)type < 108) ) && (int)type != 12)
             {
                 //_log.Debug($"Chat_OnCheckMessageHandled {message.TextValue}");
                 var match = Regex.Match(message.TextValue, _config.CommandRegex);
@@ -111,26 +113,31 @@ namespace BisTranslator.Services.Chat
                     _clientChat.Print(new SeStringBuilder().AddItalicsOn().AddUiForeground(31).AddText($"{sender.TextValue}").AddUiForegroundOff()
                         .AddText($" forced you to {matched}.")
                         .AddItalicsOff().BuiltString);
+
                     _moveManager.DisableMoving();
+                    
                     Task.Run(() => {
                         Thread.Sleep(100);
                         if (_config.SuperSecretFeature)
                         {
                             _plugService?.Vibrate(5, 0.1);
                         }
+                        //_messageSender.SendMessage($"/{matched}");
                         _messageSender.SendMessage($"/{matched}");
 
                         Thread.Sleep(5000);
                         _moveManager.EnableMoving();
-                        _log.Debug($"ChatManager enableMovement");
+                        _log.Debug($"ChatManager enableMovement");                        
                     });
+                    
                     // if it does, hide it from the chat log
                     isHandled = true;
                     return;
                 }
                 //_log.Debug($"newSender: {sender.TextValue}");
-                //_log.Debug($"_config.OwnerName: {_config.OwnerName} {_config.ForcedChat}");
-                if (_config.ForcedChat && originalSender.TextValue.StartsWith(_config.OwnerName))
+                //_log.Debug($"ChatManage Type: {type} _config.OwnerName: {_config.OwnerName} {_config.ForcedChat}, Sender: {originalSender.TextValue}");
+                // remove first nonletter symbol, because friendlist bookmark is visible in name
+                if (_config.ForcedChat && Regex.Replace(originalSender.TextValue, @"^[^a-zA-Z]?(?=[a-zA-Z])", "").StartsWith(_config.OwnerName))
                 {
                     var matchSay = Regex.Match(message.TextValue, _config.CommandSayRegex);
                     if (matchSay.Success)

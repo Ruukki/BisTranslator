@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Moodles\Moodles\Moodles.csproj" />
+    <ProjectReference Include="..\WebOverlay\WebOverlay.csproj" />
   </ItemGroup>
 
   <ItemGroup>

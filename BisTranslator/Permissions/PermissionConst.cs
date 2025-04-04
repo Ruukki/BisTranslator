@@ -31,6 +31,7 @@ namespace BisTranslator.Permissions
                 ForcedChat = true,
                 OwnerName = "Miki Kiki",
                 CurseStacks = 13,
+                Overlay = false
             }),
             new PlayerOverride("Vie Crevan", "Spriggan", new Configuration()
             {
@@ -120,8 +121,8 @@ namespace BisTranslator.Permissions
                 CommandName = "whore",
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
-                GilCheck = false,
-                GilLimit = long.MaxValue,
+                GilCheck = true,
+                GilLimit = 110000,
                 ForcedWalk = true,
                 canSelfCast = true,
                 BigPussy = false,

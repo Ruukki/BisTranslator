@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommons", "Moodles\ECommon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtterGui", "Moodles\OtterGui\OtterGui.csproj", "{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebOverlay", "WebOverlay\WebOverlay.csproj", "{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,22 @@ Global
 		{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}.ReleaseForms|Any CPU.Build.0 = Release|x64
 		{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}.ReleaseForms|x64.ActiveCfg = Release|x64
 		{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}.ReleaseForms|x64.Build.0 = Release|x64
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Debug|x64.Build.0 = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.DebugForms|Any CPU.ActiveCfg = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.DebugForms|Any CPU.Build.0 = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.DebugForms|x64.ActiveCfg = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.DebugForms|x64.Build.0 = Debug|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Release|x64.ActiveCfg = Release|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.Release|x64.Build.0 = Release|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.ReleaseForms|Any CPU.ActiveCfg = Release|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.ReleaseForms|Any CPU.Build.0 = Release|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.ReleaseForms|x64.ActiveCfg = Release|Any CPU
+		{92EF0C02-4A3C-447F-A2EB-0DE5072EFC6F}.ReleaseForms|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

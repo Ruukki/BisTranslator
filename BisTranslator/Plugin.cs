@@ -20,6 +20,8 @@ using BisTranslator.external;
 using System;
 using System.Runtime.CompilerServices;
 using ECommons.DalamudServices;
+using System.Windows.Forms;
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace BisTranslator
 {
@@ -36,7 +38,9 @@ namespace BisTranslator
         private IPluginLog log { get;set; }
 
         private OverrideManager overrides { get; set; }
-        
+
+        private Thread? overlayThread;
+        private Form? overlayForm;
 
         
 
@@ -75,7 +79,12 @@ namespace BisTranslator
                                                
                     }
                 }
-                               
+
+                if (_config.Overlay)
+                {
+                    RunOverlay();
+                }
+
             }
             catch
             {
@@ -100,6 +109,32 @@ namespace BisTranslator
             
         }
 
+        [STAThread]
+        private void RunOverlay()
+        {
+            log.Debug($"[Overlay] Overlay start");
+            overlayThread = new Thread(() => {
+                overlayForm = new WebOverlay.OverlayForm();
+                Application.Run(overlayForm);
+            });
+            overlayThread.SetApartmentState(ApartmentState.STA);
+            overlayThread.Start();
+            log.Debug($"[Overlay] Overlay end");
+        }
+
+        private void StopOverlay()
+        {
+            if (overlayForm != null && !overlayForm.IsDisposed)
+            {
+                overlayForm.Invoke((MethodInvoker)(() =>
+                {
+                    overlayForm.Close(); // Triggers Application.Run to exit
+                }));
+
+                overlayThread?.Join(); // Optional: wait for thread to end
+            }
+        }
+
         private void OnLogin()
         {
             //log.Debug($"OnLogin()");
@@ -107,46 +142,10 @@ namespace BisTranslator
             overrides.Login();
         }
 
-        private void ExtractOverlay(IDalamudPluginInterface plugin)
-        {            
-            try
-            {
-                var locDir = plugin.GetPluginLocDirectory();
-                var file = Path.Combine(locDir, "FFoverlay.zip");
-                var exe = Path.Combine(locDir, "FFoverlay.exe");
-                if(File.Exists(file) && !File.Exists(exe))
-                {
-                    ZipExtractor.ExtractZipFile(file, locDir);
-                }
-            }
-            catch(Exception ex)
-            {
-                log.Error(ex.ToString());
-            }
-        }
-
-        private void StartOverlay(IDalamudPluginInterface plugin)
-        {
-            try
-            {
-                log.Debug("Starting overlay...");
-                var locDir = plugin.GetPluginLocDirectory();
-                var file = Path.Combine(locDir, "FFoverlay.exe");
-                if (File.Exists(file))
-                {
-                    ProcessLauncher.StartExecutable(file);
-                    log.Debug("Started overlay");
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex.ToString());
-            }
-        }
-
         public void Dispose()
         {
             overrides.ClearMoodle();
+            StopOverlay();
             if (_config != null && _config.lockOnDisable)
             {
                 var move = _services.GetRequiredService<MoveManager>();

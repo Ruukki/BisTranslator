@@ -53,6 +53,8 @@ namespace BisTranslator
         public string OwnerName { get; set; } = "";
         public int CurseStacks { get; set; } = 1;
 
+        public bool Overlay {  get; set; } = false;
+
         #region Ability related
         public bool GilCheck { get; set;} = true;
         public long GilLimit { get; set; } = 110000;
@@ -113,6 +115,7 @@ namespace BisTranslator
             AbilityRestrictionLevel = configuration.AbilityRestrictionLevel;
             BannedActionRoles = configuration.BannedActionRoles;
             CurseStacks = configuration.CurseStacks;
+            Overlay = configuration.Overlay;
 
             lockedUiOverride = configuration.lockedUiOverride;
             isConfigOverriden = true;
