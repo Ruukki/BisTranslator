@@ -205,7 +205,12 @@ namespace BisTranslator.Services.Actions
                     }
                     if (_config.GilCheck && _config.GilOverflow)
                     {
+                        // Too much gil
                         return false;
+                    }
+                    else
+                    {
+                        // Below limit
                     }
                 }
             }

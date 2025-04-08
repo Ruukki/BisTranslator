@@ -58,6 +58,17 @@ namespace BisTranslator
         #region Ability related
         public bool GilCheck { get; set;} = true;
         public long GilLimit { get; set; } = 110000;
+        public string GilLimitFormatted { get {
+                var number = GilLimit > 100_000 ? GilLimit - 10_000 : GilLimit;
+                if (number >= 1_000_000_000)
+                    return (number / 1_000_000_000.0).ToString("0.#") + "B";
+                if (number >= 1_000_000)
+                    return (number / 1_000_000.0).ToString("0.#") + "M";
+                if (number >= 1_000)
+                    return (number / 1_000.0).ToString("0.#") + "K";
+
+                return number.ToString();
+            } }
         public AbilityRestrictionLevel AbilityRestrictionLevel { get; set; } = AbilityRestrictionLevel.None;
         public List<ActionRoles> BannedActionRoles { get; set; } = new List<ActionRoles>();
         public bool canSelfCast = true;
@@ -74,6 +85,9 @@ namespace BisTranslator
 
         [NonSerialized]
         public string OriginalName;
+
+        [NonSerialized]
+        public string FullNameWithServer;
 
         // System
         [NonSerialized]
@@ -122,6 +136,7 @@ namespace BisTranslator
             tester = configuration.tester;
 
             OriginalName = configuration.OriginalName;
+            FullNameWithServer = configuration.FullNameWithServer;
 
             _pluginInterface = dalamudPluginInterface;
             Translations.SetName(Name);

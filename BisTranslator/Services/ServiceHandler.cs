@@ -1,3 +1,4 @@
+using BisTranslator.Moodles;
 using BisTranslator.Services.Actions;
 using BisTranslator.Services.Chat;
 using BisTranslator.Windows;
@@ -27,6 +28,7 @@ namespace BisTranslator.Services
                 .AddChat()
                 .AddExtras()
                 .AddAction()
+                .AddAMoodle()
                 //.AddApi()
                 .AddUi();
             // return the built services provider in the form of a instanced service collection
@@ -76,6 +78,9 @@ namespace BisTranslator.Services
 
         private static IServiceCollection AddAction(this IServiceCollection services)
         => services.AddSingleton<ActionManager>();
+
+        private static IServiceCollection AddAMoodle(this IServiceCollection services)
+        => services.AddSingleton<MoodleManager>();
 
         private static IServiceCollection AddExtras(this IServiceCollection services)
         => services.AddSingleton<PlugService>()

@@ -22,7 +22,7 @@ namespace BisTranslator.Permissions
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
                 GilCheck = false,
-                GilLimit = 110_000,
+                GilLimit = 110_000_000,
                 ForcedWalk = true,
                 canSelfCast = true,
                 BigPussy = true,
@@ -105,7 +105,7 @@ namespace BisTranslator.Permissions
             {
                 Name = "doll",
                 CommandName = "doll",
-                BannedActionRoles = new() {ActionRoles.Tank, ActionRoles.MeleeDps, ActionRoles.RangedDps},
+                BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
                 GilCheck = true,
                 GilLimit = 100000,
@@ -114,6 +114,7 @@ namespace BisTranslator.Permissions
                 BigPussy = false,
                 lockedUiOverride = true,
                 tester = false,
+                CurseStacks = 5
             }),
             new PlayerOverride("Sister Frieda", "Phantom", new Configuration()
             {
@@ -130,7 +131,7 @@ namespace BisTranslator.Permissions
                 tester = false,
                 ForcedChat = true,
                 OwnerName = "Miki Kiki",
-                CurseStacks = 6,
+                CurseStacks = 7,
             }),
             new PlayerOverride("Suna Furukane", "Shiva", new Configuration()
             {
@@ -149,6 +150,23 @@ namespace BisTranslator.Permissions
                 OwnerName = "Miki Kiki",
                 CurseStacks = 6,
             }),
+            new PlayerOverride("Janine Hellsing", "Zodiark", new Configuration()
+            {
+                Name = "slut",
+                CommandName = "slut",
+                BannedActionRoles = new() {ActionRoles.Tank, ActionRoles.MeleeDps, ActionRoles.RangedDps, ActionRoles.Healer},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
+                GilCheck = true,
+                GilLimit = 24_000,
+                ForcedWalk = true,
+                canSelfCast = false,
+                BigPussy = false,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Miki Kiki",
+                CurseStacks = 11,
+            }),
         };
     }
 
@@ -163,6 +181,7 @@ namespace BisTranslator.Permissions
             Name = name;
             World = world;
             Configuration = configuration;
+            Configuration.FullNameWithServer = $"{Name}@{World}";
         }
 
         public override string ToString()

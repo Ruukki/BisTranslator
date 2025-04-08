@@ -24,14 +24,15 @@ namespace BisTranslator.Services
         IDalamudPluginInterface _pluginInterface;
         private Widget _widget;
         private string fullnameWorld;
-        private MoodleManager moodlesManager;
-        public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, IDalamudPluginInterface pluginInterface, Widget widget)
+        private MoodleManager _moodles;
+        public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, IDalamudPluginInterface pluginInterface, Widget widget, MoodleManager moodles)
         {
             _clientState = clientState;
             _log = log;
             _config = config;
             _pluginInterface = pluginInterface;
             _widget = widget;
+            _moodles = moodles;
 
         }
 
@@ -57,16 +58,18 @@ namespace BisTranslator.Services
                 {
                     _widget.Toggle();
                 }*/
-                moodlesManager = new MoodleManager(_pluginInterface, _log, fullnameWorld);
-                moodlesManager.SetMoodle(_config.CurseStacks);                
+
+                //Run moodle updates
+                _moodles.RunUpdate();
+                _moodles.SetMoodle(_config.CurseStacks);                
             }
         }
 
         public void ClearMoodle()
         {
-            if (moodlesManager != null)
+            if (_moodles != null)
             {
-                moodlesManager.ClearMoodle();
+                _moodles.ClearMoodle(MoodleLib.Curse);
             }
         }
     }
