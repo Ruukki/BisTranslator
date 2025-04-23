@@ -134,11 +134,14 @@ namespace BisTranslator.Services.Actions
             {
                 _log.Debug($"[Action Manager]: {type} {acId} {target} {a5} {a6} {a7}");
                 //_log.Debug($"{string.Join(", ", Enum.GetValues(typeof(ConditionFlag)).Cast<ConditionFlag>().Select(flag => $"{flag}:{_condition[flag]}"))}");
-                if (!insideInstance() && _config.AbilityRestrictionLevel == AbilityRestrictionLevel.MovementBan)
+                if (!PlayerContext.isInWhitelistedTerritory())
                 {
-                    if(ActionType.Action == type && Abilities.movementSkills.ContainsKey(acId))
+                    if (!insideInstance() && _config.AbilityRestrictionLevel == AbilityRestrictionLevel.MovementBan)
                     {
-                        return false;
+                        if (ActionType.Action == type && Abilities.movementSkills.ContainsKey(acId))
+                        {
+                            return false;
+                        }
                     }
                 }
 
