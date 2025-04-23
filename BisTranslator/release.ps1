@@ -4,7 +4,7 @@ param(
 )
 
 $version = Get-Date -Format "yyyyMMdd.HHmmss"
-$version = "1.1.1"
+#$version = "1.1.1"
 $zipName = "bisTranslator.zip"
 $zipPath = ".\$zipName"
 
