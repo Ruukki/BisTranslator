@@ -1,3 +1,4 @@
+using BisTranslator.Glamourer;
 using BisTranslator.Moodles;
 using BisTranslator.Permissions;
 using BisTranslator.Translator;
@@ -25,7 +26,14 @@ namespace BisTranslator.Services
         private Widget _widget;
         private string fullnameWorld;
         private MoodleManager _moodles;
-        public OverrideManager(IClientState clientState, IPluginLog log, Configuration config, IDalamudPluginInterface pluginInterface, Widget widget, MoodleManager moodles)
+        private GlamourerManager _glamourerManager;
+        public OverrideManager(IClientState clientState,
+                               IPluginLog log,
+                               Configuration config,
+                               IDalamudPluginInterface pluginInterface,
+                               Widget widget,
+                               MoodleManager moodles,
+                               GlamourerManager glamourerManager)
         {
             _clientState = clientState;
             _log = log;
@@ -34,11 +42,13 @@ namespace BisTranslator.Services
             _widget = widget;
             _moodles = moodles;
 
+            //Test
+            _glamourerManager = glamourerManager;
         }
 
         public void Dispose()
         {
-            
+            _glamourerManager.Dispose();
         }
 
         public void Login()
@@ -61,7 +71,12 @@ namespace BisTranslator.Services
 
                 //Run moodle updates
                 _moodles.RunUpdate();
-                _moodles.SetMoodle(_config.CurseStacks);                
+                _moodles.SetMoodle(_config.CurseStacks);
+
+                //Test
+                //_log.Debug($"[TEST] {_glamourerManager.SetItem()}");
+
+
             }
         }
 

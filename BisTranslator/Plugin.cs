@@ -22,6 +22,8 @@ using System.Runtime.CompilerServices;
 using ECommons.DalamudServices;
 using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
+using BisTranslator.Context;
+using ECommons;
 
 namespace BisTranslator
 {
@@ -53,6 +55,7 @@ namespace BisTranslator
                 this.PluginInterface = pluginInterface;
                 this.CommandManager = commandManager;
                 //ExtractOverlay(pluginInterface);
+                ECommonsMain.Init(pluginInterface, this);
                 _services = ServiceHandler.CreateProvider(pluginInterface);
                 log = _services.GetRequiredService<IPluginLog>();
                 _services.GetRequiredService<WindowsService>();
@@ -76,7 +79,9 @@ namespace BisTranslator
                     {
                         var framework = _services.GetRequiredService<IFramework>();
                         framework.RunOnFrameworkThread(() => OnLogin() );
-                                               
+
+                        //                        
+                        _services.GetRequiredService<ContextUpdate>().UpdateTerritoryChanged();
                     }
                 }
 
@@ -156,6 +161,7 @@ namespace BisTranslator
                 }
             }
             //this.CommandManager.RemoveHandler(CommandName);
+            overrides.Dispose();
         }
 
         private void OnCommand(string command, string args)

@@ -379,7 +379,7 @@ namespace BisTranslator.Services.Chat
                 }
                 catch
                 {
-                    //GagSpeak.Log.Error($"[Chat Manager]: Failed to process Framework Update!");
+                    //GagSpeak.Log.Error($"[Chat Manager]: Failed to process Framework UpdateTerritoryChanged!");
                 }
             }
         }

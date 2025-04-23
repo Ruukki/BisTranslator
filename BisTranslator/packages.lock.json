@@ -997,6 +997,9 @@
       "ecommons": {
         "type": "Project"
       },
+      "glamourer.api": {
+        "type": "Project"
+      },
       "moodles": {
         "type": "Project",
         "dependencies": {
@@ -1013,6 +1016,9 @@
           "JetBrains.Annotations": "[2024.3.0, )",
           "Microsoft.Extensions.DependencyInjection": "[9.0.2, )"
         }
+      },
+      "penumbra.api": {
+        "type": "Project"
       },
       "weboverlay": {
         "type": "Project",

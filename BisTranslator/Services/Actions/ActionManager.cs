@@ -1,7 +1,9 @@
+using BisTranslator.Context;
 using BisTranslator.Permissions;
 using BisTranslator.Services.Chat;
 using ChatTwo.Movement;
 using Dalamud.Game;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Keys;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Hooking;
@@ -87,7 +89,7 @@ namespace BisTranslator.Services.Actions
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty97] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97]}");
 
             uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 30243);
-            if (insideInstance())
+            if (insideInstance() || PlayerContext.isInWhitelistedTerritory())
             {
                 if (isWalking == 1)
                 {
@@ -131,6 +133,7 @@ namespace BisTranslator.Services.Actions
             try
             {
                 _log.Debug($"[Action Manager]: {type} {acId} {target} {a5} {a6} {a7}");
+                //_log.Debug($"{string.Join(", ", Enum.GetValues(typeof(ConditionFlag)).Cast<ConditionFlag>().Select(flag => $"{flag}:{_condition[flag]}"))}");
                 if (!insideInstance() && _config.AbilityRestrictionLevel == AbilityRestrictionLevel.MovementBan)
                 {
                     if(ActionType.Action == type && Abilities.movementSkills.ContainsKey(acId))

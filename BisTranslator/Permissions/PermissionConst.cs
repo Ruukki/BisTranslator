@@ -103,18 +103,18 @@ namespace BisTranslator.Permissions
             }),
             new PlayerOverride("Redrix Valentia", "Raiden", new Configuration()
             {
-                Name = "doll",
-                CommandName = "doll",
+                Name = "puppy",
+                CommandName = "puppy",
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
-                GilCheck = true,
+                GilCheck = false,
                 GilLimit = 100000,
                 ForcedWalk = true,
                 canSelfCast = false,
                 BigPussy = false,
                 lockedUiOverride = true,
                 tester = false,
-                CurseStacks = 5
+                CurseStacks = 4
             }),
             new PlayerOverride("Sister Frieda", "Phantom", new Configuration()
             {

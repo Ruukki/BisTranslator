@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommons", "Moodles\ECommon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtterGui", "Moodles\OtterGui\OtterGui.csproj", "{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glamourer.Api", "Glamourer.Api\Glamourer.Api.csproj", "{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penumbra.Api", "Penumbra.Api\Penumbra.Api.csproj", "{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,38 @@ Global
 		{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}.ReleaseForms|Any CPU.Build.0 = Release|x64
 		{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}.ReleaseForms|x64.ActiveCfg = Release|x64
 		{C5BE3E97-93DB-95C1-30B6-2AB9B64E4EB6}.ReleaseForms|x64.Build.0 = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Debug|Any CPU.Build.0 = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Debug|x64.ActiveCfg = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Debug|x64.Build.0 = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.DebugForms|Any CPU.ActiveCfg = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.DebugForms|Any CPU.Build.0 = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.DebugForms|x64.ActiveCfg = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.DebugForms|x64.Build.0 = Debug|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Release|Any CPU.ActiveCfg = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Release|Any CPU.Build.0 = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Release|x64.ActiveCfg = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.Release|x64.Build.0 = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.ReleaseForms|Any CPU.ActiveCfg = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.ReleaseForms|Any CPU.Build.0 = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.ReleaseForms|x64.ActiveCfg = Release|x64
+		{8C7FE3F5-06BE-8D99-EA44-47B7A8097CF8}.ReleaseForms|x64.Build.0 = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Debug|Any CPU.Build.0 = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Debug|x64.ActiveCfg = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Debug|x64.Build.0 = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.DebugForms|Any CPU.ActiveCfg = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.DebugForms|Any CPU.Build.0 = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.DebugForms|x64.ActiveCfg = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.DebugForms|x64.Build.0 = Debug|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Release|Any CPU.ActiveCfg = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Release|Any CPU.Build.0 = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Release|x64.ActiveCfg = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.Release|x64.Build.0 = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.ReleaseForms|Any CPU.ActiveCfg = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.ReleaseForms|Any CPU.Build.0 = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.ReleaseForms|x64.ActiveCfg = Release|x64
+		{8D9D3462-76C5-ED67-9714-45F04FB1D1E8}.ReleaseForms|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

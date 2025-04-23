@@ -1,3 +1,5 @@
+using BisTranslator.Context;
+using BisTranslator.Glamourer;
 using BisTranslator.Moodles;
 using BisTranslator.Services.Actions;
 using BisTranslator.Services.Chat;
@@ -28,7 +30,7 @@ namespace BisTranslator.Services
                 .AddChat()
                 .AddExtras()
                 .AddAction()
-                .AddAMoodle()
+                .AddManagers()
                 //.AddApi()
                 .AddUi();
             // return the built services provider in the form of a instanced service collection
@@ -79,12 +81,14 @@ namespace BisTranslator.Services
         private static IServiceCollection AddAction(this IServiceCollection services)
         => services.AddSingleton<ActionManager>();
 
-        private static IServiceCollection AddAMoodle(this IServiceCollection services)
-        => services.AddSingleton<MoodleManager>();
+        private static IServiceCollection AddManagers(this IServiceCollection services)
+        => services.AddSingleton<MoodleManager>()
+            .AddSingleton<GlamourerManager>();
 
         private static IServiceCollection AddExtras(this IServiceCollection services)
         => services.AddSingleton<PlugService>()
-            .AddSingleton<OverrideManager>();
+            .AddSingleton<OverrideManager>()
+            .AddSingleton<ContextUpdate>();
 
         private static IServiceCollection AddUi(this IServiceCollection services)
         => services.AddSingleton<WindowsService>()
