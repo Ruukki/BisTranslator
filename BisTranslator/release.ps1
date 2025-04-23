@@ -1,9 +1,9 @@
 param(
-    [string]$version = "1.0.5",
     [string]$buildPath = "bin/x64/Debug",
     [string]$jsonFile = "repo.json"
 )
 
+$version = Get-Date -Format "yyyyMMddTHHmmss"
 $zipName = "bisTranslator.zip"
 $zipPath = ".\$zipName"
 
@@ -27,7 +27,8 @@ $json = Get-Content $jsonFile | ConvertFrom-Json
     $json[0].DownloadLinkUpdate = $downloadUrl
     $json[0].DownloadLinkTesting = $downloadUrl
 # $json | ConvertTo-Json -Depth 5 | Set-Content $jsonFile
-Set-Content $jsonFile "[`n$json`n]"
+$wrappedJson = "[" + ($json | ConvertTo-Json -Depth 5) + "]"
+Set-Content $jsonFile $wrappedJson
 Write-Host "✅ Updated $jsonFile with download URL"
 
 # Commit JSON file
