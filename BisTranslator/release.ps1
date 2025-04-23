@@ -20,13 +20,16 @@ $repoUrl = gh repo view --json nameWithOwner | ConvertFrom-Json
 $downloadUrl = "https://github.com/$($repoUrl.nameWithOwner)/releases/download/$version/$zipName"
 
 # Create JSON file
-$json = Get-Content $jsonPath | ConvertFrom-Json
-$json.AssemblyVersion = $version
-$json.TestingAssemblyVersion = $version
-$json.DownloadLinkInstall = $downloadUrl
-$json.DownloadLinkUpdate = $downloadUrl
-$json.DownloadLinkTesting = $downloadUrl
-$json | ConvertTo-Json -Depth 5 | Set-Content $jsonPath
+$json = Get-Content $jsonFile | ConvertFrom-Json
+
+$json | Where-Object { $_.Name -eq "BisTranslator" } | ForEach-Object {
+    $_.AssemblyVersion = $version
+    $_.TestingAssemblyVersion = $version
+    $_.DownloadLinkInstall = $downloadUrl
+    $_.DownloadLinkUpdate = $downloadUrl
+    $_.DownloadLinkTesting = $downloadUrl
+}
+$json | ConvertTo-Json -Depth 5 | Set-Content $jsonFile
 Write-Host "✅ Updated $jsonFile with download URL"
 
 # Commit JSON file
