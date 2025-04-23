@@ -1,4 +1,4 @@
-`https://raw.githubusercontent.com/Ruukki/BisTranslator/refs/heads/winFormTest/BisTranslator/repo.json`
+`https://raw.githubusercontent.com/Ruukki/BisTranslator/winFormTest/BisTranslator/repo.json`
 
 > ⚠️ **Don't click Fork!**
 > 
