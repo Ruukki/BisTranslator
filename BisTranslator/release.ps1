@@ -1,5 +1,5 @@
 param(
-    [string]$version = "1.0.4",
+    [string]$version = "1.0.5",
     [string]$buildPath = "bin/x64/Debug",
     [string]$jsonFile = "repo.json"
 )
@@ -27,7 +27,7 @@ $json = Get-Content $jsonFile | ConvertFrom-Json
     $json[0].DownloadLinkUpdate = $downloadUrl
     $json[0].DownloadLinkTesting = $downloadUrl
 # $json | ConvertTo-Json -Depth 5 | Set-Content $jsonFile
-Set-Content $jsonPath "[`n$json`n]"
+Set-Content $jsonFile "[`n$json`n]"
 Write-Host "✅ Updated $jsonFile with download URL"
 
 # Commit JSON file
