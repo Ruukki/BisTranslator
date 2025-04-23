@@ -3,7 +3,7 @@ param(
     [string]$jsonFile = "repo.json"
 )
 
-$version = Get-Date -Format "yyyyMMddTHHmmss"
+$version = Get-Date -Format "yyyyMMdd.HHmmss"
 $zipName = "bisTranslator.zip"
 $zipPath = ".\$zipName"
 
@@ -34,5 +34,5 @@ Write-Host "✅ Updated $jsonFile with download URL"
 # Commit JSON file
 git add $jsonFile
 git commit -m "Add release info for $version"
-git push origin
+git push origin winFormTest
 Write-Host "✅ Pushed $jsonFile to repository"
