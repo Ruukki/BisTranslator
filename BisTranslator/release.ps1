@@ -24,7 +24,7 @@ $json = Get-Content $jsonFile | ConvertFrom-Json
     $json[0].AssemblyVersion = $version
     $json[0].TestingAssemblyVersion = $version
     $json[0].DownloadLinkInstall = $downloadUrl
-    $json[0]_.DownloadLinkUpdate = $downloadUrl
+    $json[0].DownloadLinkUpdate = $downloadUrl
     $json[0].DownloadLinkTesting = $downloadUrl
 $json | ConvertTo-Json -Depth 5 | Set-Content $jsonFile
 Write-Host "✅ Updated $jsonFile with download URL"
