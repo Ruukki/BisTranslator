@@ -1,5 +1,5 @@
 param(
-    [string]$version = "1.0.1",
+    [string]$version = "1.0.2",
     [string]$buildPath = "bin/x64/Debug",
     [string]$jsonFile = "repo.json"
 )
