@@ -1,5 +1,5 @@
 param(
-    [string]$version = "1.0.2",
+    [string]$version = "1.0.3",
     [string]$buildPath = "bin/x64/Debug",
     [string]$jsonFile = "repo.json"
 )
@@ -21,14 +21,11 @@ $downloadUrl = "https://github.com/$($repoUrl.nameWithOwner)/releases/download/$
 
 # Create JSON file
 $json = Get-Content $jsonFile | ConvertFrom-Json
-
-$json | Where-Object { $_.Name -eq "BisTranslator" } | ForEach-Object {
-    $_.AssemblyVersion = $version
-    $_.TestingAssemblyVersion = $version
-    $_.DownloadLinkInstall = $downloadUrl
-    $_.DownloadLinkUpdate = $downloadUrl
-    $_.DownloadLinkTesting = $downloadUrl
-}
+    $json[0].AssemblyVersion = $version
+    $json[0].TestingAssemblyVersion = $version
+    $json[0].DownloadLinkInstall = $downloadUrl
+    $json[0]_.DownloadLinkUpdate = $downloadUrl
+    $json[0].DownloadLinkTesting = $downloadUrl
 $json | ConvertTo-Json -Depth 5 | Set-Content $jsonFile
 Write-Host "✅ Updated $jsonFile with download URL"
 
