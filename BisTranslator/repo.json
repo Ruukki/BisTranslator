@@ -1,31 +1,29 @@
-[
-    {
-        "Author": "ruukki",
-        "Contributors": [
-            "CordeliaMist"
-        ],
-        "Name": "BisTranslator",
-        "Punchline": "Rp god",
-        "Description": "",
-        "Tags": [
-            "Translator",
-            "Control",
-            "BDSM",
-            "RP"
-        ],
-        "InternalName": "BisTranslator",
-        "AssemblyVersion": "1.0.1",
-        "TestingAssemblyVersion": "1.0.1",
-        "RepoUrl": "https://github.com/Ruukki/BisTranslator",
-        "ApplicableVersion": "any",
-        "DalamudApiLevel": 9,
-        "IsHide": "False",
-        "IsTestingExclusive": "False",
-        "DownloadCount": 420,
-        "LastUpdate": 1618608322,
-        "DownloadLinkInstall": "https://github.com/Ruukki/BisTranslator/releases/download/1.0.1/latest.zip",
-        "DownloadLinkUpdate": "https://github.com/Ruukki/BisTranslator/releases/download/1.0.1/latest.zip",
-        "DownloadLinkTesting": "https://github.com/Ruukki/BisTranslator/releases/download/1.0.1/latest.zip",
-        "IconUrl": "https://raw.githubusercontent.com/Ruukki/BisTranslator/master/E0NHlDcVEAQn3VL.png"
-    }
-]
+{
+    "Author":  "ruukki",
+    "Contributors":  [
+                         "CordeliaMist"
+                     ],
+    "Name":  "BisTranslator",
+    "Punchline":  "Rp god",
+    "Description":  "",
+    "Tags":  [
+                 "Translator",
+                 "Control",
+                 "BDSM",
+                 "RP"
+             ],
+    "InternalName":  "BisTranslator",
+    "AssemblyVersion":  "1.0.1",
+    "TestingAssemblyVersion":  "1.0.1",
+    "RepoUrl":  "https://github.com/Ruukki/BisTranslator",
+    "ApplicableVersion":  "any",
+    "DalamudApiLevel":  9,
+    "IsHide":  "False",
+    "IsTestingExclusive":  "False",
+    "DownloadCount":  420,
+    "LastUpdate":  1618608322,
+    "DownloadLinkInstall":  "https://github.com/Ruukki/BisTranslator/releases/download/1.0.1/latest.zip",
+    "DownloadLinkUpdate":  "https://github.com/Ruukki/BisTranslator/releases/download/1.0.1/latest.zip",
+    "DownloadLinkTesting":  "https://github.com/Ruukki/BisTranslator/releases/download/1.0.1/latest.zip",
+    "IconUrl":  "https://raw.githubusercontent.com/Ruukki/BisTranslator/master/E0NHlDcVEAQn3VL.png"
+}
