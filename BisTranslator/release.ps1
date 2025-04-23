@@ -1,0 +1,36 @@
+param(
+    [string]$version = "1.0.0",
+    [string]$buildPath = "bin/x64/Debug",
+    [string]$jsonFile = "repo.json"
+)
+
+$zipName = "bisTranslator.zip"
+$zipPath = ".\$zipName"
+
+# Compress build folder
+Compress-Archive -Path "$buildPath\*" -DestinationPath $zipPath -Force
+Write-Host "✅ Zipped $buildPath into $zipPath"
+
+# Create GitHub release and upload ZIP
+gh release create $version $zipPath --title "$version Release" --notes "Automated release of version $version"
+Write-Host "✅ GitHub release $version created"
+
+# Construct download URL
+$repoUrl = gh repo view --json nameWithOwner | ConvertFrom-Json
+$downloadUrl = "https://github.com/$($repoUrl.nameWithOwner)/releases/download/$version/$zipName"
+
+# Create JSON file
+$json = Get-Content $jsonPath | ConvertFrom-Json
+$json.AssemblyVersion = $version
+$json.TestingAssemblyVersion = $version
+$json.DownloadLinkInstall = $downloadUrl
+$json.DownloadLinkUpdate = $downloadUrl
+$json.DownloadLinkTesting = $downloadUrl
+$json | ConvertTo-Json -Depth 5 | Set-Content $jsonPath
+Write-Host "✅ Updated $jsonFile with download URL"
+
+# Commit JSON file
+git add $jsonFile
+git commit -m "Add release info for $version"
+git push origin
+Write-Host "✅ Pushed $jsonFile to repository"
