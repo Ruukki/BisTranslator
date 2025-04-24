@@ -88,7 +88,8 @@ namespace BisTranslator.Services
         private static IServiceCollection AddExtras(this IServiceCollection services)
         => services.AddSingleton<PlugService>()
             .AddSingleton<OverrideManager>()
-            .AddSingleton<ContextUpdate>();
+            .AddSingleton<ContextUpdate>()
+            .AddSingleton<NameChanger>();
 
         private static IServiceCollection AddUi(this IServiceCollection services)
         => services.AddSingleton<WindowsService>()
