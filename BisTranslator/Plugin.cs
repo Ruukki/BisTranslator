@@ -82,7 +82,7 @@ namespace BisTranslator
 
                         //                        
                         _services.GetRequiredService<ContextUpdate>().UpdateTerritoryChanged();
-                        _services.GetRequiredService<NameChanger>();
+                        //_services.GetRequiredService<NameChanger>();
                     }
                 }
 
