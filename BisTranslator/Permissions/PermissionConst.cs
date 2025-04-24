@@ -33,18 +33,6 @@ namespace BisTranslator.Permissions
                 CurseStacks = 13,
                 Overlay = false
             }),
-            new PlayerOverride("Vie Crevan", "Spriggan", new Configuration()
-            {
-                Name = "kitty",
-                BannedActionRoles = new() {},
-                AbilityRestrictionLevel = AbilityRestrictionLevel.Minimal,
-                GilCheck = false,
-                ForcedWalk = true,
-                canSelfCast = false,
-                BigPussy = false,
-                lockedUiOverride = true,
-                tester = true
-            }),
             new PlayerOverride("Kayda Hagarin", "Spriggan", new Configuration()
             {
                 Name = "",
@@ -83,20 +71,6 @@ namespace BisTranslator.Permissions
                 GilLimit = long.MaxValue,
                 ForcedWalk = true,
                 canSelfCast = true,
-                BigPussy = false,
-                lockedUiOverride = true,
-                tester = false,
-            }),
-            new PlayerOverride("Lady Marie", "Phantom", new Configuration()
-            {
-                Name = "slut",
-                CommandName = "slut",
-                BannedActionRoles = new() {ActionRoles.Tank, ActionRoles.MeleeDps, ActionRoles.RangedDps},
-                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
-                GilCheck = true,
-                GilLimit = 420,
-                ForcedWalk = true,
-                canSelfCast = false,
                 BigPussy = false,
                 lockedUiOverride = true,
                 tester = false,
