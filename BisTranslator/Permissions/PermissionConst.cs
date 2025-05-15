@@ -141,6 +141,23 @@ namespace BisTranslator.Permissions
                 OwnerName = "Miki Kiki",
                 CurseStacks = 11,
             }),
+            new PlayerOverride("Alianaa Dido", "Alpha", new Configuration()
+            {
+                Name = "buntoy",
+                CommandName = "buntoy",
+                BannedActionRoles = new() {ActionRoles.Tank, ActionRoles.MeleeDps, ActionRoles.RangedDps, ActionRoles.Healer},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
+                GilCheck = true,
+                GilLimit = 0,
+                ForcedWalk = true,
+                canSelfCast = false,
+                BigPussy = false,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Miki Kiki",
+                CurseStacks = 13,
+            }),
         };
     }
 
