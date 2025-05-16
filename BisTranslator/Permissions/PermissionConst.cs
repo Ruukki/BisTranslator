@@ -143,20 +143,20 @@ namespace BisTranslator.Permissions
             }),
             new PlayerOverride("Alianaa Dido", "Alpha", new Configuration()
             {
-                Name = "buntoy",
+                Name = "bun",
                 CommandName = "buntoy",
-                BannedActionRoles = new() {ActionRoles.Tank, ActionRoles.MeleeDps, ActionRoles.RangedDps, ActionRoles.Healer},
-                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
-                GilCheck = true,
+                BannedActionRoles = new() {},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+                GilCheck = false,
                 GilLimit = 0,
-                ForcedWalk = true,
-                canSelfCast = false,
-                BigPussy = false,
+                ForcedWalk = false,
+                canSelfCast = true,
+                BigPussy = true,
                 lockedUiOverride = true,
                 tester = false,
                 ForcedChat = true,
                 OwnerName = "Miki Kiki",
-                CurseStacks = 13,
+                CurseStacks = 1,
             }),
         };
     }
