@@ -87,18 +87,21 @@ namespace BisTranslator.Services.Actions
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty56] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty56]}");
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95]}");
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty97] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97]}");
-
-            uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 30243);
-            if (insideInstance() || PlayerContext.isInWhitelistedTerritory())
+            //_log.Debug($"Forcd walk: {_config.ForcedWalk}");
+            if (_config.ForcedWalk)
             {
-                if (isWalking == 1)
+                uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 30243);
+                if (insideInstance() || PlayerContext.isInWhitelistedTerritory())
                 {
-                    Marshal.WriteByte((IntPtr)gameControl, 30243, 0x0);
+                    if (isWalking == 1)
+                    {
+                        Marshal.WriteByte((IntPtr)gameControl, 30243, 0x0);
+                    }
                 }
-            }
-            else if (isWalking == 0)
-            {
-                Marshal.WriteByte((IntPtr)gameControl, 30243, 0x1);
+                else if (isWalking == 0)
+                {
+                    Marshal.WriteByte((IntPtr)gameControl, 30243, 0x1);
+                }
             }
 
             //GilCheck
