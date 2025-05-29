@@ -45,10 +45,10 @@ namespace BisTranslator
             }
         }
 
-        public bool BigPussy { get; set; } = false;
+        public bool BigPussy { get; set; } = true;
         public bool SuperSecretFeature { get; set; } = false;
 
-        public bool ForcedWalk { get; set; } = true;
+        public bool ForcedWalk { get; set; } = false;
         public bool ForcedChat { get; set; } = false;
         public string OwnerName { get; set; } = "";
         public int CurseStacks { get; set; } = 1;

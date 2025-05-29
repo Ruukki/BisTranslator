@@ -78,6 +78,7 @@ namespace ChatTwo.Movement
         {
             DisableHooks();
             MouseMovePreventerHook.Disable();
+            MouseMovePreventerHook.Dispose();
             //UseActionHook.Disable();
             //UseActionHook.Dispose();
         }

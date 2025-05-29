@@ -70,6 +70,7 @@ namespace BisTranslator.Services
                 }*/
 
                 //Run moodle updates
+                ClearMoodle();
                 _moodles.RunUpdate();
                 _moodles.SetMoodle(_config.CurseStacks);
 

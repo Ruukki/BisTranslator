@@ -79,6 +79,8 @@ namespace BisTranslator.Services.Actions
         public void Dispose()
         {
             _framework.Update -= framework_Update;
+            UseActionHook.Disable();
+            UseActionHook.Dispose();
         }
 
         private void framework_Update(IFramework framework)
@@ -88,10 +90,10 @@ namespace BisTranslator.Services.Actions
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95]}");
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty97] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97]}");
             //_log.Debug($"Forcd walk: {_config.ForcedWalk}");
-            if (_config.ForcedWalk)
+            if (_config.ForcedWalk && !insideInstance())
             {
                 uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 30243);
-                if (insideInstance() || PlayerContext.isInWhitelistedTerritory())
+                if (isMountedOrInCombat() || PlayerContext.isInWhitelistedTerritory())
                 {
                     if (isWalking == 1)
                     {
@@ -102,6 +104,7 @@ namespace BisTranslator.Services.Actions
                 {
                     Marshal.WriteByte((IntPtr)gameControl, 30243, 0x1);
                 }
+                
             }
 
             //GilCheck
@@ -233,12 +236,17 @@ namespace BisTranslator.Services.Actions
 
         private bool insideInstance()
         {
-            return _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.Mounted] ||
+            return
                 _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty] ||
-                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat] ||
                 _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty56] ||
                 _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] ||
                 _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97];
+        }
+
+        private bool isMountedOrInCombat()
+        {
+            return _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.Mounted] ||
+                _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat];
         }
 
     }

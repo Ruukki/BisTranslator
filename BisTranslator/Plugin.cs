@@ -162,6 +162,7 @@ namespace BisTranslator
                 }
             }
             //this.CommandManager.RemoveHandler(CommandName);
+            _services.Dispose();
             overrides.Dispose();
         }
 

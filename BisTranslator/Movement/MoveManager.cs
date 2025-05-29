@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ChatTwo.Movement
 {
-    public class MoveManager
+    public class MoveManager :IDisposable
     {
         public static readonly int[] BlockedKeys = new int[] { 321, 322, 323, 324, 325, 326 };
         private bool MovingDisabled { get; set; } = false;
-        private static MoveMemory _memory { get; set; }
+        private MoveMemory _memory { get; set; }
 
         public bool IsActive { get { return MovingDisabled; } }
 
@@ -43,6 +43,11 @@ namespace ChatTwo.Movement
                 _memory.ForceDisableMovement++;
                 MovingDisabled = true;
             }
+        }
+
+        public void Dispose()
+        {
+            _memory?.Dispose();
         }
     }
 }

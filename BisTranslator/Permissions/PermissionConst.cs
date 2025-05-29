@@ -29,7 +29,26 @@ namespace BisTranslator.Permissions
                 lockedUiOverride = true,
                 tester = false,
                 ForcedChat = true,
-                OwnerName = "Miki Kiki",
+                OwnerName = "Alianaa Dido",
+                CurseStacks = 13,
+                Overlay = false
+            }),
+            new PlayerOverride("Miki Kiki", "Alpha", new Configuration()
+            {
+                //Name = "",
+                Name = "Miki",
+                CommandName = "slut",
+                BannedActionRoles = new() {},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
+                GilCheck = false,
+                GilLimit = 110_000_000,
+                ForcedWalk = true,
+                canSelfCast = true,
+                BigPussy = true,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Alianaa Dido",
                 CurseStacks = 13,
                 Overlay = false
             }),
