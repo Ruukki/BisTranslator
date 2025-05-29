@@ -85,7 +85,14 @@ namespace BisTranslator.Services
         {
             if (_moodles != null)
             {
-                _moodles.ClearMoodle(MoodleLib.Curse);
+                try
+                {
+                    _moodles.ClearMoodle(MoodleLib.Curse);
+                }
+                catch(Exception e) 
+                {
+                    _log.Error(e.Message);
+                }
             }
         }
     }

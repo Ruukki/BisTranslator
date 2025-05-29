@@ -176,9 +176,16 @@ namespace BisTranslator.Moodles
 
         private List<MyStatus> GetMoodleList()
         {
-            var base64 = getStatusManagerByName();
-            var data = Convert.FromBase64String(base64);
-            return MemoryPackSerializer.Deserialize<List<MyStatus>>(data) ?? new List<MyStatus>();
+            try
+            {
+                var base64 = getStatusManagerByName();
+                var data = Convert.FromBase64String(base64);
+                return MemoryPackSerializer.Deserialize<List<MyStatus>>(data) ?? new List<MyStatus>();
+            }catch (Exception e)
+            {
+                _log.Warning(e.ToString());
+                return new List<MyStatus>();
+            }
         }
 
         public void RunUpdate()
