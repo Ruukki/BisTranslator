@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
+using BisTranslator.Moodles;
 using BisTranslator.Permissions;
 using Dalamud.Interface.Internal;
 using Dalamud.Interface.Windowing;
@@ -14,8 +15,9 @@ public class MainWindow : Window, IDisposable
     private Configuration _config;
     private ConfigWindow _configWindow;
     private AbilitiesWindow _abilitiesWindow;
+    private MoodleManager _moodleManager;
 
-    public MainWindow(ConfigWindow configWindow, Configuration config, AbilitiesWindow abilitiesWindow) : base(
+    public MainWindow(ConfigWindow configWindow, Configuration config, AbilitiesWindow abilitiesWindow, MoodleManager moodles) : base(
         "Miki Mod Workshop", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         this.SizeConstraints = new WindowSizeConstraints
@@ -27,6 +29,7 @@ public class MainWindow : Window, IDisposable
         _config = config;
         _configWindow = configWindow;
         _abilitiesWindow = abilitiesWindow;
+        _moodleManager = moodles;
     }
 
     public void Dispose()

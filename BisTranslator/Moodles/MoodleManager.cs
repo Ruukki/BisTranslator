@@ -1,4 +1,6 @@
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Statuses;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Services;
@@ -23,12 +25,16 @@ namespace BisTranslator.Moodles
         private IPluginLog _log;
         private ICondition _condition;
         private Configuration _config;
+        private IClientState _client;
 
         private ICallGateSubscriber<int>? _moodlesApiVersion;
         private ICallGateSubscriber<string, string> GetStatusManagerByName;
+        private ICallGateSubscriber<string> GetStatusManager;
+        private ICallGateSubscriber<string> ClearStatusManagerByName;
         private ICallGateSubscriber<string, string, object> _setStatusManager;
         private static ICallGateProvider<MoodlesStatusInfo, object?>? GagSpeakTryMoodleStatus;
-        private readonly ICallGateSubscriber<List<Guid>, string, object> _removeStatusByGuids;        
+        private static ICallGateSubscriber<List<Guid>, string, object> _removeStatusByGuids;
+        private static ICallGateSubscriber<List<Guid>, IPlayerCharacter, object> RemoveMoodlesByGUID;
 
         private DateTime lastUpdate = DateTime.MinValue;
 
@@ -42,18 +48,21 @@ namespace BisTranslator.Moodles
             StringEncoding = StringEncoding.Utf16,
         };
 
-        public MoodleManager(IDalamudPluginInterface pi, IPluginLog log, Configuration config, ICondition condition)
+        public MoodleManager(IDalamudPluginInterface pi, IPluginLog log, Configuration config, ICondition condition, IClientState client)
         {
             _pluginInterface = pi;
             _log = log;
             _config = config;
             _condition = condition;
+            _client = client;
 
             _moodlesApiVersion = _pluginInterface.GetIpcSubscriber<int>("Moodles.Version");
             GetStatusManagerByName = _pluginInterface.GetIpcSubscriber<string, string>("Moodles.GetStatusManagerByName");
+            GetStatusManager = _pluginInterface.GetIpcSubscriber<string>("Moodles.GetStatusManagerLP");
             _setStatusManager = _pluginInterface.GetIpcSubscriber<string, string, object>("Moodles.SetStatusManagerByName");
             GagSpeakTryMoodleStatus = _pluginInterface.GetIpcProvider<MoodlesStatusInfo, object?>("GagSpeak.TryOnMoodleStatus");
-            _removeStatusByGuids = pi.GetIpcSubscriber<List<Guid>, string, object>("Moodles.RemoveMoodlesByGUIDByName");
+            _removeStatusByGuids = _pluginInterface.GetIpcSubscriber<List<Guid>, string, object>("Moodles.RemoveMoodlesByGUIDByName");
+            RemoveMoodlesByGUID = _pluginInterface.GetIpcSubscriber<List<Guid>, IPlayerCharacter, object>("Moodles.RemoveMoodlesByGUID");
             //_log.Warning($"Moodles: {_moodlesApiVersion.InvokeFunc()}");
 
             _condition.ConditionChange += ConditionChanged;
@@ -72,6 +81,22 @@ namespace BisTranslator.Moodles
             try
             {
                 string result = GetStatusManagerByName.InvokeFunc(_config.FullNameWithServer);
+                //_log.Debug($"MoodleManager Name:{_config.FullNameWithServer} result:{result.IsNullOrEmpty()}");
+                return result;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message);
+                return string.Empty;
+            }
+        }
+
+        private string getStatusManager()
+        {
+            try
+            {
+                string result = GetStatusManager.InvokeFunc();
+
                 //_log.Debug($"MoodleManager Name:{_config.FullNameWithServer} result:{result.IsNullOrEmpty()}");
                 return result;
             }
@@ -124,18 +149,48 @@ namespace BisTranslator.Moodles
         public void ClearMoodle(MyStatus moodle)
         {
             var x = GetMoodleList();
+            if (x.Count == 0) { return; }
+            _log.Warning($"Moodle list :{x.First().Title} {x.First().GUID}");
+            //_log.Warning($"Moodle list :{moodle.Title}");
             var toRemove = x.Where(y => y.Title.Equals(moodle.Title));
 
+            //RemoveMoodlesByGUID.InvokeAction(new List<Guid>() { new Guid("762cfc09-8da7-49b8-825a-3b7821a374d0") }, _client.LocalPlayer);
+            var removeIds = new List<Guid>();
             foreach (var item in toRemove)
             {
-                try
-                {
-                    _removeStatusByGuids.InvokeAction(new List<Guid>() { item.GUID }.ToList(), _config.FullNameWithServer);
-                }
-                catch (Exception e)
-                {
-                    _log.Error(e.Message);
-                }
+                removeIds.Add(item.GUID);
+            }
+            try
+            {
+                RemoveMoodlesByGUID.InvokeAction(removeIds, _client.LocalPlayer);
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message);
+            }
+        }
+
+        public void ClearMoodles(List<MyStatus> moodles)
+        {
+            var x = GetMoodleList();
+            if (x.Count == 0) { return; }
+            _log.Warning($"Moodle list :{x.First().Title} {x.First().GUID}");
+            //_log.Warning($"Moodle list :{moodle.Title}");
+            var toRemove = x.Where(z=> x.Select(y => y.Title).Intersect(moodles.Select(y => y.Title)).Contains(z.Title));
+
+            //RemoveMoodlesByGUID.InvokeAction(new List<Guid>() { new Guid("762cfc09-8da7-49b8-825a-3b7821a374d0") }, _client.LocalPlayer);
+            var removeIds = new List<Guid>();
+            foreach (var item in toRemove)
+            {
+                removeIds.Add(item.GUID);
+            }
+            try
+            {
+                RemoveMoodlesByGUID.InvokeAction(removeIds, _client.LocalPlayer);
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message);
             }
         }
 
@@ -171,19 +226,21 @@ namespace BisTranslator.Moodles
 
         public void Dispose()
         {
-
+            _condition.ConditionChange -= ConditionChanged;
         }
 
         private List<MyStatus> GetMoodleList()
         {
             try
             {
-                var base64 = getStatusManagerByName();
+                var base64 = getStatusManager();
+                //_log.Warning($"base64  {base64}");
                 var data = Convert.FromBase64String(base64);
+                if (base64.IsNullOrEmpty()) return new List<MyStatus>();
                 return MemoryPackSerializer.Deserialize<List<MyStatus>>(data) ?? new List<MyStatus>();
             }catch (Exception e)
             {
-                _log.Warning(e.ToString());
+                _log.Error(e.ToString());
                 return new List<MyStatus>();
             }
         }

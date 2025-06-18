@@ -6,6 +6,7 @@ using BisTranslator.Windows;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
+using Moodles.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace BisTranslator.Services
             {
                 fullnameWorld = $"{_clientState.LocalPlayer.Name}@{_clientState.LocalPlayer.HomeWorld.Value.InternalName}";
                 var configOverride = PermissionConst.PlayerOverrides.FirstOrDefault(x => x.ToString() == $"{fullnameWorld}")?.Configuration;
-                _log.Debug($"configOverride: {configOverride == null}");
+                //_log.Debug($"configOverride: {configOverride == null}");
                 if (configOverride != null)
                 {
                     configOverride.OriginalName = _clientState.LocalPlayer.Name.TextValue;
@@ -93,7 +94,8 @@ namespace BisTranslator.Services
             {
                 try
                 {
-                    _moodles.ClearMoodle(MoodleLib.Curse);
+                    //_moodles.ClearMoodle(MoodleLib.Curse);
+                    _moodles.ClearMoodles(new List<MyStatus>() { MoodleLib.Curse, MoodleLib.Burdened, MoodleLib.LightPockets });
                 }
                 catch(Exception e) 
                 {

@@ -223,7 +223,7 @@ namespace BisTranslator.Permissions
             CommandName = "",
             BannedActionRoles = new() { },
             AbilityRestrictionLevel = AbilityRestrictionLevel.None,
-            GilCheck = false,
+            GilCheck = true,
             GilLimit = 0,
             ForcedWalk = false,
             canSelfCast = true,

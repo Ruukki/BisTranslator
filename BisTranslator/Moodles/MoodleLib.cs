@@ -12,7 +12,7 @@ namespace BisTranslator.Moodles
         public static MyStatus Curse = new MyStatus()
         {
             IconID = 217861,
-            Title = "[color=555]»[/color] [glow=537]Accursed Mark[/glow] [color=555]« [/color] ",
+            Title = "[color=555]»[/color][glow=537] Accursed Mark [/glow][color=555]«[/color]",
             Description = "[color=9]A[/color][color=48] strange and insidious[/color][color=9] curse lingers in the air and on the[/color][glow=56] Wearer[/glow]. [color=9]An Inescapable grip holding the wearer gently, but firmly. [/color]",
             Type = StatusType.Special,
             Dispelable = false,
