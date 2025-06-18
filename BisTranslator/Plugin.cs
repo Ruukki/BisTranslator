@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 using BisTranslator.Context;
 using ECommons;
+using BisTranslator.Permissions;
 
 namespace BisTranslator
 {
@@ -44,6 +45,8 @@ namespace BisTranslator
         private Thread? overlayThread;
         private Form? overlayForm;
 
+        private IClientState? client;
+
         
 
         public Plugin(
@@ -62,14 +65,14 @@ namespace BisTranslator
                 _config = _services.GetRequiredService<Configuration>();
                 Translations.SetName(_config.Name);
                 _config.Save();
-                log.Debug($"Cofgi path: {pluginInterface.GetPluginConfigDirectory()}");
+                log.Debug($"Cofig path: {pluginInterface.GetPluginConfigDirectory()}");
 
                 _services.GetRequiredService<ChatManager>(); // Initialize the OnChatMessage
                 _services.GetRequiredService<ChatReader>(); // Initialize the chat message detour
                 _services.GetRequiredService<ActionManager>();
                 overrides = _services.GetRequiredService<OverrideManager>();
 
-                var client = _services.GetRequiredService<IClientState>();
+                client = _services.GetRequiredService<IClientState>();
                 log.Debug($"client.IsLoggedIn: {client.IsLoggedIn} clientNull: {client == null}");
                 if (client != null)
                 {
@@ -150,6 +153,10 @@ namespace BisTranslator
 
         public void Dispose()
         {
+            if (client != null)
+            {
+                client.Login -= OnLogin;
+            }
             overrides.ClearMoodle();
             StopOverlay();
             if (_config != null && _config.lockOnDisable)

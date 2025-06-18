@@ -67,7 +67,7 @@ namespace BisTranslator.Services
                  var logger = _.GetRequiredService<IPluginLog>();
                  var clientState = _.GetRequiredService<IClientState>();
                  //var historyService = _.GetRequiredService<HistoryService>();
-                 return new ChatReader(sigService, interop, config, logger, clientState);
+                 return new ChatReader(sigService, interop, config, logger, clientState, _.GetRequiredService<IChatGui>());
              })
              /*.AddSingleton<MessageEncoder>()
              .AddSingleton<MessageDecoder>()

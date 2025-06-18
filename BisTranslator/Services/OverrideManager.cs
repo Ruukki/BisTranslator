@@ -57,20 +57,26 @@ namespace BisTranslator.Services
             {
                 fullnameWorld = $"{_clientState.LocalPlayer.Name}@{_clientState.LocalPlayer.HomeWorld.Value.InternalName}";
                 var configOverride = PermissionConst.PlayerOverrides.FirstOrDefault(x => x.ToString() == $"{fullnameWorld}")?.Configuration;
-                //_log.Debug($"configOverride: {configOverride == null} _clientState.LocalPlayer.Name.TextValue: {_clientState.LocalPlayer.Name.TextValue} _clientState.LocalPlayer.HomeWorld.GameData.InternalName: {_clientState.LocalPlayer.HomeWorld.GameData.InternalName}");
+                _log.Debug($"configOverride: {configOverride == null}");
                 if (configOverride != null)
                 {
                     configOverride.OriginalName = _clientState.LocalPlayer.Name.TextValue;
                     _config.Override(configOverride, _pluginInterface);
                 }
-
-                /*if (!_widget.IsOpen)
+                else
                 {
-                    _widget.Toggle();
-                }*/
+                    var def = PermissionConst.Default;
+                    def.OriginalName = _clientState.LocalPlayer.Name.TextValue;
+                    _config.Override(def, _pluginInterface);
+                }
 
-                //Run moodle updates
-                ClearMoodle();
+                    /*if (!_widget.IsOpen)
+                    {
+                        _widget.Toggle();
+                    }*/
+
+                    //Run moodle updates
+                    ClearMoodle();
                 _moodles.RunUpdate();
                 _moodles.SetMoodle(_config.CurseStacks);
 

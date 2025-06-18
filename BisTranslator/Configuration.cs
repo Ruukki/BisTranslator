@@ -1,10 +1,13 @@
 using BisTranslator.Translator;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using Dalamud.Utility;
+using ECommons.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace BisTranslator
 {
@@ -56,8 +59,9 @@ namespace BisTranslator
         public bool Overlay {  get; set; } = false;
 
         #region Ability related
-        public bool GilCheck { get; set;} = true;
+        public bool GilCheck { get; set;} = false;
         public long GilLimit { get; set; } = 110000;
+        [IgnoreDataMember]
         public string GilLimitFormatted { get {
                 var number = GilLimit > 100_000 ? GilLimit - 10_000 : GilLimit;
                 if (number >= 1_000_000_000)
@@ -82,6 +86,8 @@ namespace BisTranslator
         public bool tester = false;
         [NonSerialized]
         public bool lockOnDisable = false;
+        [NonSerialized]
+        public bool chatMuted = false;
 
         [NonSerialized]
         public string OriginalName;
@@ -109,7 +115,6 @@ namespace BisTranslator
         public void Save()
         {
             Translations.SetName(Name);
-
             _pluginInterface?.SavePluginConfig(this);
         }
 

@@ -1,7 +1,9 @@
 using BisTranslator.Utility;
 using Dalamud.Game;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
+using ECommons.ChatMethods;
 using Lumina;
 using System;
 using System.Collections.Generic;
@@ -28,14 +30,16 @@ namespace BisTranslator.Services.Chat
         private readonly List<string> _configChannelsCommandsList;
         private readonly IPluginLog _pluginLog;
         private readonly IClientState _state;
+        private readonly IChatGui _clientChat;
 
         /// <summary> Initializes a new instance of the <see cref="ChatInputProcessor"/> class. </summary>
-        public ChatReader(ISigScanner scanner, IGameInteropProvider interop, Configuration config, IPluginLog pluginLog, IClientState clientState)
+        public ChatReader(ISigScanner scanner, IGameInteropProvider interop, Configuration config, IPluginLog pluginLog, IClientState clientState, IChatGui clientChat)
         {
             // initialize interopfromattributes
             _config = config;
             _pluginLog = pluginLog;
             _state = clientState;
+            _clientChat = clientChat;
             //_configChannelsCommandsList = _config.Channels.GetChatChannelsListAliases();
             //_historyService = historyService;
             interop.InitializeFromAttributes(this);
@@ -93,7 +97,7 @@ namespace BisTranslator.Services.Chat
             _pluginLog.Debug("[Chat Processor]: Detouring Chat Input Message");
             // try the following
             try
-            {
+            {      
                 var bc = 0;
                 int matchSequence = 0;
                 for (var i = 0; i <= 500; i++)
@@ -107,11 +111,6 @@ namespace BisTranslator.Services.Chat
                     bc = i; // increment bc
                     break;
                 }
-                if (bc < 2 || bc > 500 || _config.BigPussy || matchSequence == 4)
-                {
-                    // if we satsify this condition it means our message is an invalid message so disregard it
-                    return processChatInputHook.Original(uiModule, message, a3); // just send the message as invalid or whatever
-                }
 
                 /*
                 StringBuilder hex = new StringBuilder(bc * 2);
@@ -123,6 +122,22 @@ namespace BisTranslator.Services.Chat
                 _pluginLog.Debug($"[Chat Processor]: uiModule: {uiModule}");
                 _pluginLog.Debug($"[Chat Processor]: a3: {a3}");
                 */
+
+                if (_config.chatMuted)
+                {
+                    _clientChat.Print(new SeStringBuilder().AddItalicsOn().AddText($"{_config.Name}")
+                        .AddText($" should not speak.")
+                        .AddItalicsOff().BuiltString);
+                    return 0;
+                }
+
+                if (bc < 2 || bc > 500 || _config.BigPussy || matchSequence == 4)
+                {
+                    // if we satsify this condition it means our message is an invalid message so disregard it
+                    return processChatInputHook.Original(uiModule, message, a3); // just send the message as invalid or whatever
+                }
+
+                
 
                 var inputString = Encoding.UTF8.GetString(*message, bc);
                 var matchedCommand = "";

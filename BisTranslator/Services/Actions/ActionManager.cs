@@ -90,6 +90,7 @@ namespace BisTranslator.Services.Actions
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty95]}");
             //_log.Debug($"_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundByDuty97] {_condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.BoundToDuty97]}");
             //_log.Debug($"Forcd walk: {_config.ForcedWalk}");
+            //_log.Debug($"cName: {_config.Name}");
             if (_config.ForcedWalk && !insideInstance())
             {
                 uint isWalking = Marshal.ReadByte((IntPtr)gameControl, 30243);
@@ -248,6 +249,7 @@ namespace BisTranslator.Services.Actions
             return _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.Mounted] ||
                 _condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.InCombat];
         }
+
 
     }
 }

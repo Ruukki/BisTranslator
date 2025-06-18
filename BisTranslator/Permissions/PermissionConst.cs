@@ -29,7 +29,7 @@ namespace BisTranslator.Permissions
                 lockedUiOverride = true,
                 tester = false,
                 ForcedChat = true,
-                OwnerName = "Alianaa Dido",
+                OwnerName = "Eveli Harukawa",
                 CurseStacks = 13,
                 Overlay = false
             }),
@@ -39,7 +39,45 @@ namespace BisTranslator.Permissions
                 Name = "Miki",
                 CommandName = "slut",
                 BannedActionRoles = new() {},
-                AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+                GilCheck = false,
+                GilLimit = 110_000_000,
+                ForcedWalk = true,
+                canSelfCast = true,
+                BigPussy = true,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Alianaa Dido",
+                CurseStacks = 13,
+                Overlay = false
+            }),
+            /*new PlayerOverride("Eve's Bun'ra", "Spriggan", new Configuration()
+            {
+                //Name = "",
+                Name = "Miki",
+                CommandName = "slut",
+                BannedActionRoles = new() {},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+                GilCheck = false,
+                GilLimit = 110_000_000,
+                ForcedWalk = false,
+                canSelfCast = true,
+                BigPussy = true,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Alianaa Dido",
+                CurseStacks = 13,
+                Overlay = false
+            }),*/
+            new PlayerOverride("Miki Kiki", "Raiden", new Configuration()
+            {
+                //Name = "",
+                Name = "Miki",
+                CommandName = "slut",
+                BannedActionRoles = new() {},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
                 GilCheck = false,
                 GilLimit = 110_000_000,
                 ForcedWalk = true,
@@ -177,6 +215,24 @@ namespace BisTranslator.Permissions
                 OwnerName = "Miki Kiki",
                 CurseStacks = 1,
             }),
+        };
+
+        public static Configuration Default = new Configuration()
+        {
+            Name = "test",
+            CommandName = "",
+            BannedActionRoles = new() { },
+            AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+            GilCheck = false,
+            GilLimit = 0,
+            ForcedWalk = false,
+            canSelfCast = true,
+            BigPussy = true,
+            lockedUiOverride = true,
+            tester = false,
+            ForcedChat = false,
+            OwnerName = "",
+            CurseStacks = 1,
         };
     }
 

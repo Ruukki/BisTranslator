@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using BisTranslator.Translator;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using static FFXIVClientStructs.FFXIV.Client.Graphics.Kernel.VertexShader;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace BisTranslator.Services.Chat
 {
@@ -114,21 +115,39 @@ namespace BisTranslator.Services.Chat
                         .AddText($" forced you to {matched}.")
                         .AddItalicsOff().BuiltString);
 
-                    _moveManager.DisableMoving();
-                    
-                    Task.Run(() => {
-                        Thread.Sleep(100);
-                        if (_config.SuperSecretFeature)
-                        {
-                            _plugService?.Vibrate(5, 0.1);
-                        }
-                        //_messageSender.SendMessage($"/{matched}");
-                        _messageSender.SendMessage($"/{matched}");
+                    switch (matched)
+                    {
+                        case "stay":
+                            _moveManager.DisableMoving();
+                            break;
+                        case "move":
+                            _moveManager.EnableMoving();
+                            break;
+                        case "shut up":
+                            _config.chatMuted = true;
+                            break;
+                        case "speak":
+                            _config.chatMuted = false;
+                            break;
+                        default:
+                            _moveManager.DisableMoving();
 
-                        Thread.Sleep(5000);
-                        _moveManager.EnableMoving();
-                        _log.Debug($"ChatManager enableMovement");                        
-                    });
+                            Task.Run(() =>
+                            {
+                                Thread.Sleep(100);
+                                if (_config.SuperSecretFeature)
+                                {
+                                    _plugService?.Vibrate(5, 0.1);
+                                }
+                                //_messageSender.SendMessage($"/{matched}");
+                                _messageSender.SendMessage($"/{matched}");
+
+                                Thread.Sleep(5000);
+                                _moveManager.EnableMoving();
+                                _log.Debug($"ChatManager enableMovement");
+                            });
+                            break;
+                    }
                     
                     // if it does, hide it from the chat log
                     isHandled = true;
@@ -143,6 +162,7 @@ namespace BisTranslator.Services.Chat
                     if (matchSay.Success)
                     {
                         var matched = matchSay.Groups[2].Value;
+                        matched = matched.Replace('[', '<').Replace(']', '>');
                         _log.Debug($"match.Success {matched}");
 
                         _messageSender.SendMessage($"{matched}");
