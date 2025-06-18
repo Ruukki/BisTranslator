@@ -223,7 +223,7 @@ namespace BisTranslator.Permissions
             CommandName = "it would be funny if this worked, right?",
             BannedActionRoles = new() { },
             AbilityRestrictionLevel = AbilityRestrictionLevel.None,
-            GilCheck = true,
+            GilCheck = false,
             GilLimit = 0,
             ForcedWalk = false,
             canSelfCast = true,
