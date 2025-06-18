@@ -68,6 +68,7 @@ namespace BisTranslator.Services
                 {
                     var def = PermissionConst.Default;
                     def.OriginalName = _clientState.LocalPlayer.Name.TextValue;
+                    def.Name = _clientState.LocalPlayer.Name.TextValue;
                     _config.Override(def, _pluginInterface);
                 }
 

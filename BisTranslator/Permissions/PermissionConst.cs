@@ -220,7 +220,7 @@ namespace BisTranslator.Permissions
         public static Configuration Default = new Configuration()
         {
             Name = "test",
-            CommandName = "",
+            CommandName = "it would be funny if this worked, right?",
             BannedActionRoles = new() { },
             AbilityRestrictionLevel = AbilityRestrictionLevel.None,
             GilCheck = true,
