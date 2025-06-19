@@ -215,6 +215,40 @@ namespace BisTranslator.Permissions
                 OwnerName = "Miki Kiki",
                 CurseStacks = 1,
             }),
+            new PlayerOverride("Sephira Velara", "Spriggan", new Configuration()
+            {
+                Name = "Sephira Velara",
+                CommandName = "biggie",
+                BannedActionRoles = new() {},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+                GilCheck = false,
+                GilLimit = 0,
+                ForcedWalk = false,
+                canSelfCast = true,
+                BigPussy = true,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = false,
+                OwnerName = "",
+                CurseStacks = 1,
+            }),
+            new PlayerOverride("June Naeuri", "Raiden", new Configuration()
+            {
+                Name = "Sephi's Pet",
+                CommandName = "Pet",
+                BannedActionRoles = new() {},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+                GilCheck = false,
+                GilLimit = 0,
+                ForcedWalk = false,
+                canSelfCast = true,
+                BigPussy = true,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Sephira Velara",
+                CurseStacks = 1,
+            }),
         };
 
         public static Configuration Default = new Configuration()

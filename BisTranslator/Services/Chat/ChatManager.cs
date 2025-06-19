@@ -118,16 +118,16 @@ namespace BisTranslator.Services.Chat
                     switch (matched)
                     {
                         case "stay":
-                            _moveManager.DisableMoving();
+                            if(_config.tester) _moveManager.DisableMoving();
                             break;
                         case "move":
-                            _moveManager.EnableMoving();
+                            if (_config.tester) _moveManager.EnableMoving();
                             break;
                         case "shut up":
-                            _config.chatMuted = true;
+                            if (_config.tester) _config.chatMuted = true;
                             break;
                         case "speak":
-                            _config.chatMuted = false;
+                            if (_config.tester) _config.chatMuted = false;
                             break;
                         default:
                             _moveManager.DisableMoving();
