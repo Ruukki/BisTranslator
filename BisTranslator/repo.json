@@ -13,8 +13,8 @@
                  "RP"
              ],
     "InternalName":  "BisTranslator",
-    "AssemblyVersion":  "20250619.174634",
-    "TestingAssemblyVersion":  "20250619.174634",
+    "AssemblyVersion":  "20250623.222230",
+    "TestingAssemblyVersion":  "20250623.222230",
     "DalamudApiLevel":  12,
     "LoadPriority":  696969,
     "RepoUrl":  "https://github.com/Ruukki/BisTranslator",
@@ -23,8 +23,8 @@
     "IsTestingExclusive":  "False",
     "DownloadCount":  420,
     "LastUpdate":  1618608322,
-    "DownloadLinkInstall":  "https://github.com/Ruukki/BisTranslator/releases/download/20250619.174634/bisTranslator.zip",
-    "DownloadLinkUpdate":  "https://github.com/Ruukki/BisTranslator/releases/download/20250619.174634/bisTranslator.zip",
-    "DownloadLinkTesting":  "https://github.com/Ruukki/BisTranslator/releases/download/20250619.174634/bisTranslator.zip",
+    "DownloadLinkInstall":  "https://github.com/Ruukki/BisTranslator/releases/download/20250623.222230/bisTranslator.zip",
+    "DownloadLinkUpdate":  "https://github.com/Ruukki/BisTranslator/releases/download/20250623.222230/bisTranslator.zip",
+    "DownloadLinkTesting":  "https://github.com/Ruukki/BisTranslator/releases/download/20250623.222230/bisTranslator.zip",
     "IconUrl":  "https://raw.githubusercontent.com/Ruukki/BisTranslator/master/E0NHlDcVEAQn3VL.png"
 }]
