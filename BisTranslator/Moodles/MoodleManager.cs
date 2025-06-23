@@ -235,8 +235,9 @@ namespace BisTranslator.Moodles
             {
                 var base64 = getStatusManager();
                 //_log.Warning($"base64  {base64}");
-                var data = Convert.FromBase64String(base64);
                 if (base64.IsNullOrEmpty()) return new List<MyStatus>();
+                var data = Convert.FromBase64String(base64);
+                
                 return MemoryPackSerializer.Deserialize<List<MyStatus>>(data) ?? new List<MyStatus>();
             }catch (Exception e)
             {

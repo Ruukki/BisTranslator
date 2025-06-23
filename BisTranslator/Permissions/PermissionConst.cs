@@ -249,6 +249,23 @@ namespace BisTranslator.Permissions
                 OwnerName = "Sephira Velara",
                 CurseStacks = 1,
             }),
+            new PlayerOverride("Lucy Draag", "Shiva", new Configuration()
+            {
+                Name = "cumdump",
+                CommandName = "cumdump",
+                BannedActionRoles = new() {ActionRoles.MeleeDps, ActionRoles.Tank, ActionRoles.RangedDps},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+                GilCheck = false,
+                GilLimit = 0,
+                ForcedWalk = false,
+                canSelfCast = true,
+                BigPussy = false,
+                lockedUiOverride = true,
+                tester = true,
+                ForcedChat = true,
+                OwnerName = "Eveli Harukawa",
+                CurseStacks = 3,
+            }),
         };
 
         public static Configuration Default = new Configuration()
