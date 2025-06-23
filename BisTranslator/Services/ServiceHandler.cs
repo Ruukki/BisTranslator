@@ -57,7 +57,7 @@ namespace BisTranslator.Services
 
         private static IServiceCollection AddChat(this IServiceCollection services)
         => services.AddSingleton<ChatManager>()
-             .AddSingleton<MessageSender>(_ => { var sigService = _.GetRequiredService<ISigScanner>(); return new MessageSender(sigService); })
+             .AddSingleton<MessageSender>(_ => { var sigService = _.GetRequiredService<ISigScanner>(); var framework = _.GetRequiredService<IFramework>(); return new MessageSender(sigService, framework); })
              .AddSingleton<ChatReader>(_ => {
                  // this shit is all a bit wild but its nessisary to handle our danger file stuff correctly. Until you learn more about signatures, i dont advise
                  // you to try and replicate this. However, when you do, just know this is how to correctly integrate them into a service collection structure

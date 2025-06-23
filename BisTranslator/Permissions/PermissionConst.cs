@@ -52,25 +52,25 @@ namespace BisTranslator.Permissions
                 CurseStacks = 13,
                 Overlay = false
             }),
-            /*new PlayerOverride("Eve's Bun'ra", "Spriggan", new Configuration()
+            new PlayerOverride("Eve's Bun'ra", "Spriggan", new Configuration()
             {
                 //Name = "",
-                Name = "Miki",
+                Name = "slut",
                 CommandName = "slut",
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.None,
                 GilCheck = false,
                 GilLimit = 110_000_000,
-                ForcedWalk = false,
+                ForcedWalk = true,
                 canSelfCast = true,
-                BigPussy = true,
+                BigPussy = false,
                 lockedUiOverride = true,
-                tester = false,
+                tester = true,
                 ForcedChat = true,
-                OwnerName = "Alianaa Dido",
+                OwnerName = "Eveli Harukawa",
                 CurseStacks = 13,
                 Overlay = false
-            }),*/
+            }),
             new PlayerOverride("Miki Kiki", "Raiden", new Configuration()
             {
                 //Name = "",

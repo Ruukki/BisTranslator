@@ -1,4 +1,5 @@
 using Dalamud.Game;
+using Dalamud.Plugin.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -24,9 +25,10 @@ namespace BisTranslator.Services.Chat
 
         // Now we need to get the pointer for the uimodule, message, unused information and byte data from above
         private ProcessChatBoxDelegate? ProcessChatBox { get; }
+        private IFramework _framework { get; }
 
         /// <summary> By being an internal constructor, it means that this class can only be accessed by the same assembly. </summary>
-        internal MessageSender(ISigScanner scanner)
+        internal MessageSender(ISigScanner scanner, IFramework framework)
         {
             // Now we need to scan for the signature of the chatbox, to see if it is valid
             if (scanner.TryScanText(Signatures.SendChat, out var processChatBoxPtr))
@@ -34,6 +36,7 @@ namespace BisTranslator.Services.Chat
                 // If it is valid, we need to get the delegate for the chatbox as a function pointer.
                 this.ProcessChatBox = Marshal.GetDelegateForFunctionPointer<ProcessChatBoxDelegate>(processChatBoxPtr);
             }
+            _framework = framework;
         }
 
         /// <summary>
@@ -71,7 +74,7 @@ namespace BisTranslator.Services.Chat
             }
 
             // Assuming it meets the correct conditions, we can begin to obtain the UI module pointer for the chatbox within the framework instance
-            this.SendMessageUnsafe(bytes);
+            _framework.RunOnFrameworkThread(() => this.SendMessageUnsafe(bytes));
         }
 
         /// <summary>
@@ -103,7 +106,7 @@ namespace BisTranslator.Services.Chat
             // StructureToPtr - Marshals data from a managed object to an unmanaged block of memory.
             Marshal.StructureToPtr(payload, mem1, false);
             // Finally, we can send our message to the chatbox
-            this.ProcessChatBox(uiModule, mem1, IntPtr.Zero, 0);
+            _framework.RunOnFrameworkThread(() => this.ProcessChatBox(uiModule, mem1, IntPtr.Zero, 0));
             // and dont forget to free back up our memory
             Marshal.FreeHGlobal(mem1);
         }
