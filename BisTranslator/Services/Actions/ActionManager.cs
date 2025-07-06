@@ -160,14 +160,16 @@ namespace BisTranslator.Services.Actions
                         var role = _clientState.LocalPlayer.ClassJob.Value.Role;
                         if (_config.BannedActionRoles.Contains((ActionRoles)role))
                         {
+                            //_log.Debug($"[Action Manager]: __1__");
                             return false;
                         }
 
-                        if (_config.canSelfCast && (ActionRoles)role == ActionRoles.Healer)
+                        if (!_config.canSelfCast && (ActionRoles)role == ActionRoles.Healer)
                         {
                             //_log.Debug($"[Action Manager]: {_objectTable.FirstOrDefault(x => x.ObjectId.Equals(target))?.ObjectKind}");
                             if (_clientState.LocalPlayer.GameObjectId == (ulong)target /*|| _objectTable.FirstOrDefault(x => x.ObjectId.Equals((uint)target))?.ObjectKind != Dalamud.Game.ClientState.Objects.Enums.ObjectKind.Player*/)
                             {
+                                _log.Debug($"[Action Manager]: __2__");
                                 return false;
                             }
                         }
@@ -219,6 +221,7 @@ namespace BisTranslator.Services.Actions
                     if (_config.GilCheck && _config.GilOverflow)
                     {
                         // Too much gil
+                        //_log.Debug($"[Action Manager]: __3__");
                         return false;
                     }
                     else

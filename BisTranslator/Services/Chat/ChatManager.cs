@@ -123,7 +123,7 @@ namespace BisTranslator.Services.Chat
                         case "move":
                             if (_config.tester) _moveManager.EnableMoving();
                             break;
-                        case "shut up":
+                        case "shutup":
                             if (_config.tester) _config.chatMuted = true;
                             break;
                         case "speak":
