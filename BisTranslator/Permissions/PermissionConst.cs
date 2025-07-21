@@ -275,7 +275,7 @@ namespace BisTranslator.Permissions
                 AbilityRestrictionLevel = AbilityRestrictionLevel.None,
                 GilCheck = false,
                 GilLimit = 110_000_000,
-                ForcedWalk = true,
+                ForcedWalk = false,
                 canSelfCast = false,
                 BigPussy = false,
                 lockedUiOverride = true,
