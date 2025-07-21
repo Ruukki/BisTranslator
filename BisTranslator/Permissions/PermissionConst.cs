@@ -17,7 +17,7 @@ namespace BisTranslator.Permissions
             new PlayerOverride("Miki Kiki", "Spriggan", new Configuration()
             {
                 //Name = "",
-                Name = "Miki",
+                Name = "slut",
                 CommandName = "slut",
                 BannedActionRoles = new() {},
                 AbilityRestrictionLevel = AbilityRestrictionLevel.MovementBan,
@@ -265,6 +265,25 @@ namespace BisTranslator.Permissions
                 ForcedChat = true,
                 OwnerName = "Eveli Harukawa",
                 CurseStacks = 3,
+            }),
+            new PlayerOverride("Service Drone", "Spriggan", new Configuration()
+            {
+                //Name = "",
+                Name = "drone",
+                CommandName = "drone",
+                BannedActionRoles = new() {ActionRoles.MeleeDps, ActionRoles.RangedDps, ActionRoles.Tank},
+                AbilityRestrictionLevel = AbilityRestrictionLevel.None,
+                GilCheck = false,
+                GilLimit = 110_000_000,
+                ForcedWalk = true,
+                canSelfCast = false,
+                BigPussy = false,
+                lockedUiOverride = true,
+                tester = false,
+                ForcedChat = true,
+                OwnerName = "Miki Kiki",
+                CurseStacks = 11,
+                Overlay = false
             }),
         };
 
